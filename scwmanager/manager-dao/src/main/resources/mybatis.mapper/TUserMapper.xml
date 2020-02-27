@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：对应哪个接口 -->
+<mapper namespace="me.jar.scw.manager.dao.TUserMapper">
+	<insert id="insertUser" parameterType="me.jar.scw.manager.model.TUser">
+		INSERT INTO
+			t_user
+		VALUES
+			(#{id},#{loginAcct},#{userPswd},#{userName},#{email},#{createTime});
+	</insert>
+
+	<select id="selectAllUsers" resultType="me.jar.scw.manager.model.TUser">
+		SELECT * FROM t_user;
+	</select>
+
+	
+</mapper>
+
+
