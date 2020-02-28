@@ -24,14 +24,16 @@ public class UserController {
      * @return
      */
     @RequestMapping("reg.do")
-    @ResponseBody
+//    @ResponseBody
     public String userReg(TUser user) {
         System.out.println("UserController.userReg()");
         Integer row = userService.createUser(user);
         if (row == 1) {
-            return "{\"state\":\"success\"}";
+//            return "{\"state\":\"success\"}";
+            return "success";
         } else {
-            return "{\"state\":\"fail\"}";
+//            return "{\"state\":\"fail\"}";
+            return "index2";
         }
     }
 }

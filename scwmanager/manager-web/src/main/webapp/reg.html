@@ -25,7 +25,7 @@
 
     <div class="container">
 
-      <form id="reg_form" class="form-signin" role="form">
+      <form id="reg_form" class="form-signin" role="form" action="user/reg.do" method="post">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户注册</h2>
 		  <div class="form-group has-success has-feedback">
 			<input type="text" class="form-control" placeholder="请输入登录账号" name="userName" autofocus>
@@ -53,28 +53,28 @@
             <a href="login.html">我有账号</a>
           </label>
         </div>
-        <input id="reg_btn" class="btn btn-lg btn-success btn-block"  type="button" value="注册"/>
+        <input id="reg_btn" class="btn btn-lg btn-success btn-block"  type="submit" value="注册"/>
       </form>
     </div>
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $("#reg_btn").click(function () {
-            $.ajax({
-                "url":"user/reg.do",
-                "data":$("#reg_form").serialize(),
-                "type":"POST",
-                "dataType":"json",
-                "success":function (json) {
-                    console.log("返回数据" + json.state);
-                    if (json.state == "success"){
-                        alert("成功");
-                    }else {
-                        alert("失败");
-                    }
-                }
-            });
-        });
+        // $("#reg_btn").click(function () {
+        //     $.ajax({
+        //         "url":"user/reg.do",
+        //         "data":$("#reg_form").serialize(),
+        //         "type":"POST",
+        //         "dataType":"json",
+        //         "success":function (json) {
+        //             console.log("返回数据" + json.state);
+        //             if (json.state == "success"){
+        //                 alert("成功");
+        //             }else {
+        //                 alert("失败");
+        //             }
+        //         }
+        //     });
+        // });
     </script>
   </body>
 </html>

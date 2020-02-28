@@ -7,13 +7,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07146443-5a25-48ce-b3d3-0e85b10d8b69" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/manager-web/src/main/java/me/jar/scw/manager/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/src/main/java/me/jar/scw/manager/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/java/me/jar/scw/manager/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/src/main/resources/springmvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/resources/springmvc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/src/main/webapp/index2.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/webapp/WEB-INF/pages/index2.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager-web/src/main/webapp/reg.html" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/webapp/reg.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-dao-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-dao-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-model-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-model-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-service-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/lib/manager-service-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/src/main/webapp/success.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/src/main/webapp/WEB-INF/pages/success.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/target/classes/springmvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/classes/springmvc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/classes/springmvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/classes/springmvc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/index2.jsp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/reg.html" beforeDir="false" afterPath="$PROJECT_DIR$/manager-web/target/manager-web/reg.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager-web/target/manager-web/success.jsp" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,18 +93,18 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src" />
-      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\resources" />
-      <recent name="D:\eclipse-workspace\scwmanager\manager-dao\src\main\resources" />
-      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\webapp" />
-      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\webapp\WEB-INF" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\webapp" />
       <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\webapp\scw" />
       <recent name="D:\eclipse-workspace\scwmanager\manager-dao\src\main\resources\mybatis.mapper" />
       <recent name="D:\eclipse-workspace\scwmanager\manager-dao" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\scw\scwmanager\manager-web\src\main\webapp\WEB-INF\pages" />
+      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src" />
+      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\resources" />
+      <recent name="D:\eclipse-workspace\scwmanager\manager-dao\src\main\resources" />
+      <recent name="D:\eclipse-workspace\scwmanager\manager-web\src\main\webapp" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -311,6 +317,7 @@
       <workItem from="1582806677925" duration="1506000" />
       <workItem from="1582812997998" duration="101000" />
       <workItem from="1582815675217" duration="4016000" />
+      <workItem from="1582891482685" duration="2425000" />
     </task>
     <servers />
   </component>
