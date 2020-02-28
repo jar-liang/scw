@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Description 用户登录注册控制器
- * @Date 2020/2/27-23:05
+ * @Date 2020/2/27
  */
 @Controller
 @RequestMapping("user")
