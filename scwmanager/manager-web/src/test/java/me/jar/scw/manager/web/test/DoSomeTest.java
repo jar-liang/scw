@@ -15,7 +15,7 @@ import java.util.List;
  * @Date 2020/2/25-21:46
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc.xml")
+@ContextConfiguration(locations = {"classpath:springmvc.xml", "classpath:mybatisconfig.xml"})
 public class DoSomeTest {
     @Autowired
     IUserService userService;
