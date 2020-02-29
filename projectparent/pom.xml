@@ -64,6 +64,8 @@
     <jsp-api.version>2.2</jsp-api.version>
     <jstl.version>1.2</jstl.version>
 
+    <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+
     <!-- email,commons,httpclient...activiti... -->
     <activiti.version>5.22.0</activiti.version>
     <activiti.spring.version>5.22.0</activiti.spring.version>
@@ -309,6 +311,17 @@
         <artifactId>jstl</artifactId>
         <version>${jstl.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>${thymeleaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf-spring4</artifactId>
+        <version>${thymeleaf.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
