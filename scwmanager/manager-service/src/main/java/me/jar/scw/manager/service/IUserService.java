@@ -18,4 +18,7 @@ public interface IUserService {
     Integer createUser(TUser user);
 
     List<TUser> findAllUsers();
+
+    boolean createNewUser(TUser user);
+
 }

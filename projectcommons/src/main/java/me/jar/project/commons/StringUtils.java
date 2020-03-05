@@ -1,5 +1,8 @@
 package me.jar.project.commons;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @Description 常用String工具类
  * @Date 2020/2/15-16:48
@@ -19,5 +22,18 @@ public class StringUtils {
             return true;
         }
         return false;
+    }
+
+    /**
+     *  将date转换成字符串
+     * @param date
+     * @return
+     */
+    public static String timeToString(Date date) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(date);
     }
 }

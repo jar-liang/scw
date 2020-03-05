@@ -23,4 +23,11 @@ public interface TUserMapper {
      * @return
      */
     List<TUser> selectAllUsers();
+
+    /**
+     *  有选择地插入数据
+     * @param user
+     * @return
+     */
+    Integer insertUserSelective(TUser user);
 }

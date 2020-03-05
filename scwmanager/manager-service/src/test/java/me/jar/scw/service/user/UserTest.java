@@ -27,4 +27,15 @@ public class UserTest {
             System.out.println(user);
         }
     }
+
+    @Test
+    public void testCreateNewUser() {
+        TUser user = new TUser();
+        user.setUserName("Jerry2");
+        user.setUserPswd("123456");
+        user.setEmail("12@33.com");
+        boolean result = userService.createNewUser(user);
+        System.out.println(result);
+        System.out.println("id: " + user.getId());
+    }
 }

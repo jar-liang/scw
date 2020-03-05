@@ -2,6 +2,8 @@ package me.jar.project.commons;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 /**
  * @Description
  * @Date 2020/2/24-21:13
@@ -14,5 +16,11 @@ public class UtilsTest {
         System.out.println(shaCode);
     }
 
+    @Test
+    public void testDateToString() {
+        Date date = new Date();
+        String time = StringUtils.timeToString(date);
+        System.out.println(time);
+    }
 
 }

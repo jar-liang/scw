@@ -15,6 +15,29 @@
 		SELECT * FROM t_user;
 	</select>
 
+	<insert id="insertUserSelective" parameterType="me.jar.scw.manager.model.TUser"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+			t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="loginAcct != null">loginacct,</if>
+			<if test="userPswd != null">userpswd,</if>
+			<if test="userName != null">username,</if>
+			<if test="email != null">email,</if>
+			<if test="createTime != null">createtime,</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="loginAcct != null">#{loginAcct},</if>
+			<if test="userPswd != null">#{userPswd},</if>
+			<if test="userName != null">#{userName},</if>
+			<if test="email != null">#{email},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
 	
 </mapper>
 
