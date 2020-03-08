@@ -30,4 +30,11 @@ public interface TUserMapper {
      * @return
      */
     Integer insertUserSelective(TUser user);
+
+    /**
+     *  验证用户登录
+     * @param user
+     * @return
+     */
+    Integer checkUserLogin(TUser user);
 }

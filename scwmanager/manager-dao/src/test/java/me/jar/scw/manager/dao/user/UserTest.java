@@ -30,4 +30,13 @@ public class UserTest {
         System.out.println("testInsertUserSelective effective: " + row);
         System.out.println("user id: " + user.getId());
     }
+
+    @Test
+    public void testCheckUserLogin() {
+        TUser user = new TUser();
+        user.setUserName("李四");
+        user.setUserPswd("ef67d9f509f77382d7bbd4e4844a3dc4121f4b294a28941cd521b098b8aabdc");
+        Integer id = userMapper.checkUserLogin(user);
+        System.out.println("row is " + id);
+    }
 }

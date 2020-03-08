@@ -38,6 +38,13 @@
 		</trim>
 	</insert>
 
+	<select id="checkUserLogin" parameterType="me.jar.scw.manager.model.TUser" resultType="java.lang.Integer">
+		SELECT id FROM
+			t_user
+		WHERE
+			username=#{userName} AND userpswd=#{userPswd}
+	</select>
+
 	
 </mapper>
 

@@ -51,6 +51,25 @@ public class UserServiceImpl implements IUserService {
         return false;
     }
 
+    /**
+     *  验证登录信息是否正确，正确返回用户id
+     * @param user
+     * @return
+     */
+    @Override
+    public Integer checkLogin(TUser user) {
+        user.setUserPswd(getEncryptPwd(user.getUserPswd()));
+        try {
+            Integer id = tUserMapper.checkUserLogin(user);
+            if (id != null) {
+                return id;
+            }
+        } catch (Exception e) {
+            System.out.println("UserServiceImpl.checkLogin fail." + e.getMessage());
+        }
+        return null;
+    }
+
     private static String getEncryptPwd(String pwd) {
         if (pwd == null || "".equals(pwd)) {
             return null;

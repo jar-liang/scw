@@ -31,11 +31,24 @@ public class UserTest {
     @Test
     public void testCreateNewUser() {
         TUser user = new TUser();
-        user.setUserName("Jerry2");
+        user.setUserName("Jerry");
         user.setUserPswd("123456");
         user.setEmail("12@33.com");
         boolean result = userService.createNewUser(user);
         System.out.println(result);
         System.out.println("id: " + user.getId());
+    }
+
+    @Test
+    public void testCheckLogin() {
+        TUser user = new TUser();
+        user.setUserName("Jerry");
+        user.setUserPswd("123456");
+        Integer id = userService.checkLogin(user);
+        if (id != null) {
+            System.out.println("login success! user id is " + id);
+        } else {
+            System.out.println("login fail!");
+        }
     }
 }
