@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：对应哪个接口 -->
+<mapper namespace="me.jar.scw.manager.dao.TPermissionMapper">
+
+	<select id="selectAllMenu" resultType="me.jar.scw.manager.model.TPermission">
+		SELECT * FROM t_permission
+	</select>
+
+	
+</mapper>
+
+

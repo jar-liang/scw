@@ -24,7 +24,7 @@
 
     <!--  配置SQL XML映射文件在哪里，以及数据源  -->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="mapperLocations" value="classpath:mybatis.mapper/TUserMapper.xml" />
+        <property name="mapperLocations" value="classpath:mybatis.mapper/*.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
 

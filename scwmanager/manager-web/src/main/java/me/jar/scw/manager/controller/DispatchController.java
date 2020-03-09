@@ -22,6 +22,8 @@ public class DispatchController {
             String userIdAndName = (String) session.getAttribute(Constants.USER_SESSION);
             String userName = userIdAndName.substring(userIdAndName.lastIndexOf(':') + 1);
             modelMap.addAttribute("userName", userName);
+            // 将菜单数据放进modelMap中 TODO
+
             return "main";
         }
     }
