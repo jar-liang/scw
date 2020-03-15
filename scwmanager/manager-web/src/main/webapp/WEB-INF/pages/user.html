@@ -83,27 +83,20 @@
 			     <tr >
 				     <td colspan="6" align="center">
 						<ul class="pagination">
-                                <li><a th:href="@{/user/list.do(num=1)}">首页</a></li>
-<!--								<li ><a th:href="@{/user/list.do(num=${userList.prePage})}">上一页</a></li>-->
-<!--                                <span th:each="page : ${userList.navigatepageNums}">-->
-<!--                                    <li th:if="${page == userList.pageNum}" class="active"><a ><span th:text="${page}"></span><span class="sr-only">(current)</span></a></li>-->
-<!--                                    <span th:if="${page != userList.pageNum}">-->
-<!--                                        <li><a th:href="@{/user/list.do(num=${page})}"><span th:text="${page}"></span></a></li>-->
-<!--                                    </span>-->
-<!--                                </span>-->
-<!--								<li th:if="${userList.hasNextPage}"><a th:href="@{/user/list.do(num=${userList.nextPage})}">下一页</a></li>-->
+                                <li><a th:href="@{/user/list.do(num=1)}">首页 - 1</a></li>
                                 <!-- 上一页 -->
                                 <li th:if="${pageVO.hasPrePage == false}"><span style="color : gray">上一页</span></li>
                                 <li th:if="${pageVO.hasPrePage == true}"><a th:href="@{/user/list.do(num=${pageVO.pageNum - 1})}">上一页</a></li>
-                                <th:block th:if="${#lists.size(pageVO.showPages) > 0}">
-                                    <th:block th:each="page : ${pageVO.showPages}">
-                                        <li><a th:href="@{/user/list.do(num=${page})}"><span th:text="${page}">No.</span></a></li>
+                                    <th:block th:if="${#lists.size(pageVO.showPages) > 0}" th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                            </a>
+                                        </li>
                                     </th:block>
-                                </th:block>
                                 <!-- 下一页 -->
                                 <li th:if="${pageVO.hasNextPage == false}"><span style="color: gray">下一页</span></li>
                                 <li th:if="${pageVO.hasNextPage == true}"><a th:href="@{/user/list.do(num=${pageVO.pageNum + 1})}">下一页</a></li>
-                                <li><a th:href="@{/user/list.do(num=${pageVO.totalPage})}">末页</a></li>
+                                <li><a th:href="@{/user/list.do(num=${pageVO.totalPage})}" th:text="'末页 - ' + ${pageVO.totalPage}">末页</a></li>
 							 </ul>
 					 </td>
 				 </tr>
