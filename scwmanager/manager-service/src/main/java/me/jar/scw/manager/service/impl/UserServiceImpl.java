@@ -8,7 +8,6 @@ import me.jar.scw.manager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -30,9 +29,27 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<TUser> findAllUsers() {
-        List<TUser> users = tUserMapper.selectAllUsers();
-        return users;
+    public List<TUser> findAllUsers(Integer pageNum, Integer pageSize) {
+        pageNum = (pageNum - 1) * pageSize;
+        try {
+            List<TUser> users = tUserMapper.selectAllUsers(pageNum, pageSize);
+            if (users.isEmpty()) {
+                return null;
+            }
+            return users;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer getUserAmount() {
+        try {
+            Integer num = tUserMapper.countAllUsers();
+            return num;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

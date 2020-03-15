@@ -1,5 +1,6 @@
 package me.jar.scw.service.user;
 
+import com.github.pagehelper.PageInfo;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.service.IUserService;
 import org.junit.Test;
@@ -22,11 +23,18 @@ public class UserTest {
 
     @Test
     public void testFindUsers() {
-        List<TUser> users = userService.findAllUsers();
+        List<TUser> users = userService.findAllUsers(2, 5);
         for (TUser user : users) {
             System.out.println(user);
         }
     }
+
+    @Test
+    public void testGetUserAmount() {
+        Integer num = userService.getUserAmount();
+        System.out.println(num);
+    }
+
 
     @Test
     public void testCreateNewUser() {

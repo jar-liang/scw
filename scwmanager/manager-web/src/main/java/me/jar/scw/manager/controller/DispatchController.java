@@ -1,11 +1,13 @@
 package me.jar.scw.manager.controller;
 
 import me.jar.scw.manager.model.constant.Constants;
+import me.jar.scw.manager.model.vo.PermissionVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Description 转发页面
@@ -23,7 +25,8 @@ public class DispatchController {
             String userName = userIdAndName.substring(userIdAndName.lastIndexOf(':') + 1);
             modelMap.addAttribute("userName", userName);
             // 将菜单数据放进modelMap中 TODO
-
+            List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
+            modelMap.addAttribute("userMenu", userMenu);
             return "main";
         }
     }

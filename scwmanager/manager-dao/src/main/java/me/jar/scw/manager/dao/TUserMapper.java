@@ -1,6 +1,7 @@
 package me.jar.scw.manager.dao;
 
 import me.jar.scw.manager.model.TUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,10 +18,17 @@ public interface TUserMapper {
     Integer insertUser(TUser user);
 
     /**
-     *  查询所有用户
+     *  查询用户信息
      * @return
      */
-    List<TUser> selectAllUsers();
+    List<TUser> selectAllUsers(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+
+
+    /**
+     *  取到所有用户数量
+     * @return
+     */
+    Integer countAllUsers();
 
     /**
      *  有选择地插入数据

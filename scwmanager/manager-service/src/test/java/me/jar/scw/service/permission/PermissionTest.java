@@ -1,7 +1,6 @@
 package me.jar.scw.service.permission;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IPermissionService;
 import org.junit.Test;

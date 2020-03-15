@@ -12,7 +12,16 @@
 	</insert>
 
 	<select id="selectAllUsers" resultType="me.jar.scw.manager.model.TUser">
-		SELECT * FROM t_user;
+		SELECT id,loginAcct,userName,email
+		FROM t_user
+		ORDER BY id
+		<if test="pageNum != null and pageSize != null">
+			LIMIT #{pageNum},#{pageSize}
+		</if>
+	</select>
+
+	<select id="countAllUsers" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM t_user;
 	</select>
 
 	<insert id="insertUserSelective" parameterType="me.jar.scw.manager.model.TUser"

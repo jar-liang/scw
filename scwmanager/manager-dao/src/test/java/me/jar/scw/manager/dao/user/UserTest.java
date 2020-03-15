@@ -1,5 +1,6 @@
 package me.jar.scw.manager.dao.user;
 
+import com.github.pagehelper.PageHelper;
 import me.jar.scw.manager.dao.TUserMapper;
 import me.jar.scw.manager.model.TUser;
 import org.junit.Test;
@@ -7,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * @Description
@@ -38,5 +41,19 @@ public class UserTest {
         user.setUserPswd("ef67d9f509f77382d7bbd4e4844a3dc4121f4b294a28941cd521b098b8aabdc");
         Integer id = userMapper.checkUserLogin(user);
         System.out.println("row is " + id);
+    }
+
+    @Test
+    public void testSelectAllUser() {
+        List<TUser> users = userMapper.selectAllUsers(5, 5);
+        for (TUser user : users) {
+            System.out.println(user);
+        }
+    }
+
+    @Test
+    public void testCountAllUsers() {
+        Integer count = userMapper.countAllUsers();
+        System.out.println(count);
     }
 }

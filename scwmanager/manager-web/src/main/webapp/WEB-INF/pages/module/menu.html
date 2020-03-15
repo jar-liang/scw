@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="UTF-8" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="tree" th:fragment="userMenu">
+    <ul style="padding-left:0px;" class="list-group">
+        <li class="list-group-item tree-closed" >
+            <a href="../main.html" th:href="@{/main.do}"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
+        </li>
+
+        <li class="list-group-item tree-closed" th:each="permissionVO : ${userMenu}">
+						<span><i class="glyphicon glyphicon glyphicon-tasks" th:class="${permissionVO.getIcon()}"></i><span th:text="${permissionVO.getName()}"></span>
+							<span class="badge" style="float:right" th:text="${#lists.size(permissionVO.getChildMenu())}">3</span></span>
+            <ul style="margin-top:10px;display:none;" th:each="permissionVO : ${permissionVO.getChildMenu()}">
+                <li style="height:30px;" >
+                    <a href="../user.html" th:href="@{'/' + ${permissionVO.getUrl()}}"><i class="glyphicon glyphicon-user" th:class="${permissionVO.getIcon()}"></i>
+                        <span th:text="${permissionVO.getName()}"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+</html>
