@@ -35,7 +35,7 @@ public class UserController {
      */
     @RequestMapping("list.do")
     public String showUsers(@RequestParam(value = "num", defaultValue = "1") Integer pageNum,
-                            @RequestParam(value = "size", defaultValue = "5")Integer pageListSize,
+                            @RequestParam(value = "size", defaultValue = "10")Integer pageListSize,
                             ModelMap modelMap, HttpSession session) {
         //1.拿到数据库数据
         Integer userAmount = userService.getUserAmount();
