@@ -31,20 +31,23 @@ public class PermissionServiceImpl implements IPermissionService {
         // 定义permissionVO的List
         List<PermissionVO> permissionVOs = new ArrayList<>();
         // 遍历permissions，将菜单放进permissionVOs中
-        // 先试试非递归，两次循环，第一次拿到根菜单，第二次拿到各自的子菜单
+        // 两次循环，第一次拿到根菜单，第二次拿到各自的子菜单
         for (TPermission permission : permissions) {
             if (permission.getPid() == 0) {
-                permissionVOs.add(new PermissionVO(permission));
-            }
-        }
-        for (PermissionVO permissionVO : permissionVOs) {
-            List<PermissionVO> child = new ArrayList<>();
-            for (TPermission permission : permissions) {
-                if (permissionVO.getId() == permission.getPid()) {
-                    child.add(new PermissionVO(permission));
+                // 存放子菜单的List
+                List<PermissionVO> subPermissionVOs = new ArrayList<>();
+                for (TPermission p : permissions) {
+                    if (p.getPid().equals(permission.getId())) {
+                        subPermissionVOs.add(new PermissionVO(p));
+                    }
                 }
+                // 父菜单
+                PermissionVO permissionVO = new PermissionVO(permission);
+                // 将子菜单List添加到父菜单下
+                permissionVO.setChildMenu(subPermissionVOs);
+                // 将父菜单添加到父菜单List
+                permissionVOs.add(permissionVO);
             }
-            permissionVO.setChildMenu(child);
         }
         return permissionVOs;
     }

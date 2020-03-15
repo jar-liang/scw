@@ -37,7 +37,7 @@ public class UserController {
     public String showUsers(@RequestParam(value = "num", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "size", defaultValue = "10")Integer pageListSize,
                             ModelMap modelMap, HttpSession session) {
-        //1.拿到数据库数据
+        //1.拿到数据库数据  TODO 参数校验，如果userAmount为0的情况
         Integer userAmount = userService.getUserAmount();
         List<TUser> users = userService.findAllUsers(pageNum, pageListSize);
         //2.分页
