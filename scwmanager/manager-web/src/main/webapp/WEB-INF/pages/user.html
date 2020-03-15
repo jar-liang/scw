@@ -87,12 +87,65 @@
                                 <!-- 上一页 -->
                                 <li th:if="${pageVO.hasPrePage == false}"><span style="color : gray">上一页</span></li>
                                 <li th:if="${pageVO.hasPrePage == true}"><a th:href="@{/user/list.do(num=${pageVO.pageNum - 1})}">上一页</a></li>
-                                    <th:block th:if="${#lists.size(pageVO.showPages) > 0}" th:each="page : ${pageVO.showPages}">
+                                <!--   总页数大于0且小于等于5  -->
+                                    <th:block th:if="${pageVO.totalPage > 0 && pageVO.totalPage <=5}" th:each="page : ${pageVO.showPages}">
                                         <li><a th:href="@{/user/list.do(num=${page})}">
                                             <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
                                             </a>
                                         </li>
                                     </th:block>
+                            <!--   总页数页数等于6  -->
+                            <th:block th:if="${pageVO.totalPage ==6}" >
+                                <th:block th:if="${pageVO.pageNum <= 3}" >
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum > 3}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                            <!--   总页数页数大于6  -->
+                            <th:block th:if="${pageVO.totalPage > 6}" >
+                                <th:block th:if="${pageVO.pageNum <= 3}" >
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum > 3 && pageVO.pageNum < pageVO.totalPage - 2}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum >= pageVO.totalPage - 2}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/user/list.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
                                 <!-- 下一页 -->
                                 <li th:if="${pageVO.hasNextPage == false}"><span style="color: gray">下一页</span></li>
                                 <li th:if="${pageVO.hasNextPage == true}"><a th:href="@{/user/list.do(num=${pageVO.pageNum + 1})}">下一页</a></li>

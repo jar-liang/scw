@@ -63,15 +63,15 @@ public class PageVO<T> {
             this.start = pageNum - 2;
             this.end = pageNum + 2;
 
-            if(start < 0){
+            if(start <= 0){
                 //比如当前页是第1页，或者第2页，那么就不如和这个规则，
                 this.start = 1;
-                this.end = 5;
+                this.end = this.start + 4;
             }
             if(end > this.totalPage){
                 //比如当前页是倒数第2页或者最后一页，也同样不符合上面这个规则
-                this.end = totalPage;
-                this.start = end - 5;
+                this.end = this.totalPage;
+                this.start = this.end - 4;
             }
         }
         // 判断是否有上一页和下一页
@@ -91,11 +91,11 @@ public class PageVO<T> {
             }
         }
         // 将显示的页数装进数组中
-        int length = end - start + 1;
-        showPages = new int[length];
-        showPages[0] = start;
+        int length = this.end - this.start + 1;
+        this.showPages = new int[length];
+        this.showPages[0] = this.start;
         for (int i = 1; i < length; i++) {
-            showPages[i] = showPages[i -1] + 1;
+            this.showPages[i] = this.showPages[i -1] + 1;
         }
     }
     //get、set方法。
