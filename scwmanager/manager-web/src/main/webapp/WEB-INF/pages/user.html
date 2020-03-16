@@ -39,14 +39,14 @@
 				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
 			  </div>
 			  <div class="panel-body">
-<form class="form-inline" role="form" style="float:left;">
+<form class="form-inline" role="form" style="float:left;" action="user/list.do" th:action="@{/user/list.do}" method="post">
   <div class="form-group has-feedback">
     <div class="input-group">
-      <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <div class="input-group-addon">用户名查询</div>
+      <input class="form-control has-success" type="text" placeholder="请输入用户名查询" name="search" th:value="${showSearch}">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="submit" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
@@ -117,7 +117,7 @@
             });
             $("a[href='/scw/user/list.do']").css("color", "red");
             $("a[href='/scw/user/list.do']").parents(".list-group-item").removeClass("tree-closed").children("ul").show(10);
-            // $("a[href='/scw/user/list.do']").parent().parent("ul").show(100);
+            $("#nav-page-name").text("用户维护");
         </script>
   </body>
 </html>

@@ -23,7 +23,7 @@ public class UserTest {
 
     @Test
     public void testFindUsers() {
-        List<TUser> users = userService.findAllUsers(2, 5);
+        List<TUser> users = userService.findAllUsers(1, 5, "sg");
         for (TUser user : users) {
             System.out.println(user);
         }
@@ -31,7 +31,7 @@ public class UserTest {
 
     @Test
     public void testGetUserAmount() {
-        Integer num = userService.getUserAmount();
+        Integer num = userService.getUserAmount("sg");
         System.out.println(num);
     }
 

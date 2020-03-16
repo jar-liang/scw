@@ -23,13 +23,13 @@ public interface IUserService {
      * @param pageSize
      * @return
      */
-    List<TUser> findAllUsers(Integer pageNum, Integer pageSize);
+    List<TUser> findAllUsers(Integer pageNum, Integer pageSize, String search);
 
     /**
      *  获取用户数量
      * @return
      */
-    Integer getUserAmount();
+    Integer getUserAmount(String search);
 
     /**
      *  用户注册，正确返回true，错误返回false（一般用户名重复会出现错误)

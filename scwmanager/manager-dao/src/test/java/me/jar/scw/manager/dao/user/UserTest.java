@@ -45,7 +45,7 @@ public class UserTest {
 
     @Test
     public void testSelectAllUser() {
-        List<TUser> users = userMapper.selectAllUsers(5, 5);
+        List<TUser> users = userMapper.selectAllUsers(1, 5, "sg");
         for (TUser user : users) {
             System.out.println(user);
         }
@@ -53,7 +53,7 @@ public class UserTest {
 
     @Test
     public void testCountAllUsers() {
-        Integer count = userMapper.countAllUsers();
+        Integer count = userMapper.countAllUsers("sg");
         System.out.println(count);
     }
 }

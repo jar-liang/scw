@@ -19,16 +19,17 @@ public interface TUserMapper {
 
     /**
      *  查询用户信息
+     *   添加条件查询
      * @return
      */
-    List<TUser> selectAllUsers(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+    List<TUser> selectAllUsers(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize, @Param("search") String search);
 
 
     /**
      *  取到所有用户数量
      * @return
      */
-    Integer countAllUsers();
+    Integer countAllUsers(@Param("search") String search);
 
     /**
      *  有选择地插入数据

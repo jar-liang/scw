@@ -36,10 +36,12 @@ public class UserController {
     @RequestMapping("list.do")
     public String showUsers(@RequestParam(value = "num", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "size", defaultValue = "10")Integer pageListSize,
+                            @RequestParam(value = "search", required = false) String search,
                             ModelMap modelMap, HttpSession session) {
         //1.拿到数据库数据  TODO 参数校验，如果userAmount为0的情况
-        Integer userAmount = userService.getUserAmount();
-        List<TUser> users = userService.findAllUsers(pageNum, pageListSize);
+        Integer userAmount = userService.getUserAmount(search);
+        List<TUser> users = userService.findAllUsers(pageNum, pageListSize, search);
+
         //2.分页
         PageVO<TUser> pageVO = new PageVO<>(pageNum, pageListSize, userAmount);
         pageVO.setList(users);
@@ -47,6 +49,10 @@ public class UserController {
         //3.把菜单页放入modelMap中
         List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
         modelMap.addAttribute("userMenu", userMenu);
+        // 回显search的内容
+        if (search != null) {
+            modelMap.addAttribute("showSearch", search);
+        }
         return "user";
     }
 

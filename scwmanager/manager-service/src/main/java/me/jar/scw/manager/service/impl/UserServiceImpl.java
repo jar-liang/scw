@@ -29,10 +29,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<TUser> findAllUsers(Integer pageNum, Integer pageSize) {
+    public List<TUser> findAllUsers(Integer pageNum, Integer pageSize, String search) {
         pageNum = (pageNum - 1) * pageSize;
         try {
-            List<TUser> users = tUserMapper.selectAllUsers(pageNum, pageSize);
+            List<TUser> users = tUserMapper.selectAllUsers(pageNum, pageSize, search);
             if (users.isEmpty()) {
                 return null;
             }
@@ -43,9 +43,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Integer getUserAmount() {
+    public Integer getUserAmount(String search) {
         try {
-            Integer num = tUserMapper.countAllUsers();
+            Integer num = tUserMapper.countAllUsers(search);
             return num;
         } catch (Exception e) {
             return null;

@@ -14,14 +14,20 @@
 	<select id="selectAllUsers" resultType="me.jar.scw.manager.model.TUser">
 		SELECT id,loginAcct,userName,email
 		FROM t_user
+		<if test="search != null">
+			WHERE  userName LIKE concat('%', #{search}, '%')
+		</if>
 		ORDER BY id
 		<if test="pageNum != null and pageSize != null">
 			LIMIT #{pageNum},#{pageSize}
 		</if>
 	</select>
 
-	<select id="countAllUsers" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM t_user;
+	<select id="countAllUsers" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM t_user
+		<if test="search != null">
+			WHERE  userName LIKE concat('%', #{search}, '%')
+		</if>
 	</select>
 
 	<insert id="insertUserSelective" parameterType="me.jar.scw.manager.model.TUser"
