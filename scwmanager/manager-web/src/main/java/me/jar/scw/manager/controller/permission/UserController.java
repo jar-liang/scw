@@ -39,13 +39,6 @@ public class UserController {
                             @RequestParam(value = "search", required = false) String search,
                             ModelMap modelMap, HttpSession session) {
         //1.拿到数据库数据  TODO 参数校验，如果userAmount为0的情况
-        Integer userAmount = userService.getUserAmount(search);
-        List<TUser> users = userService.findAllUsers(pageNum, pageListSize, search);
-
-        //2.分页
-        PageVO<TUser> pageVO = new PageVO<>(pageNum, pageListSize, userAmount);
-        pageVO.setList(users);
-        modelMap.addAttribute("pageVO", pageVO);
         //3.把菜单页放入modelMap中
         List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
         modelMap.addAttribute("userMenu", userMenu);
@@ -53,6 +46,17 @@ public class UserController {
         if (search != null) {
             modelMap.addAttribute("showSearch", search);
         }
+        Integer userAmount = userService.getUserAmount(search);
+        if (userAmount == 0) {
+            modelMap.addAttribute("pageVO", null);
+            return "user";
+        }
+        List<TUser> users = userService.findAllUsers(pageNum, pageListSize, search);
+
+        //2.分页
+        PageVO<TUser> pageVO = new PageVO<>(pageNum, pageListSize, userAmount);
+        pageVO.setList(users);
+        modelMap.addAttribute("pageVO", pageVO);
         return "user";
     }
 

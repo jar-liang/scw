@@ -77,12 +77,18 @@
 					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
                 </tr>
-
               </tbody>
+                <tbody th:if="${pageVO == null}">
+                    <tr>
+                        <td colspan="6" align="center">查询不到数据</td>
+                    </tr>
+                </tbody>
 			  <tfoot>
 			     <tr >
-				     <td colspan="6" align="center">
-                         <th:block th:replace="module/page::showPage"></th:block>
+                     <td id="td-page" colspan="6" align="center" >
+                         <th:block th:if="${pageVO != null}">
+                            <ul th:replace="module/page::showPage"></ul>
+                         </th:block>
 					 </td>
 				 </tr>
 
@@ -118,6 +124,9 @@
             $("a[href='/scw/user/list.do']").css("color", "red");
             $("a[href='/scw/user/list.do']").parents(".list-group-item").removeClass("tree-closed").children("ul").show(10);
             $("#nav-page-name").text("用户维护");
+            // $(function () {
+            //
+            // });
         </script>
   </body>
 </html>
