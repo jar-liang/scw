@@ -127,6 +127,18 @@
             // $(function () {
             //
             // });
+
+            // 添加url中参数的值
+            function updateUrlParam(name, val) {
+                var thisUrl = document.location.href;
+                // 判断是否有 ？号，有则直接加&，否则加？
+                if (thisUrl.indexOf("?") > 0) {
+                    thisUrl = thisUrl + "&" + name + "=" + val;
+                } else {
+                    thisUrl = thisUrl + "?" + name + "=" + val;
+                }
+                location.href = thisUrl;
+            };
         </script>
   </body>
 </html>

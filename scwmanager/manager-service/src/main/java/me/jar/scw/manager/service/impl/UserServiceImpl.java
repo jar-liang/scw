@@ -6,6 +6,7 @@ import me.jar.scw.manager.dao.TUserMapper;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -62,7 +63,7 @@ public class UserServiceImpl implements IUserService {
             if (row == 1) {
                 return true;
             }
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             System.out.println("UserServiceImpl.createNewUser fail" + e.getMessage());
         }
         return false;

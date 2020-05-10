@@ -6,6 +6,7 @@ import me.jar.scw.manager.model.vo.PageVO;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IPermissionService;
 import me.jar.scw.manager.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,7 +44,7 @@ public class UserController {
         List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
         modelMap.addAttribute("userMenu", userMenu);
         // 回显search的内容
-        if (search != null) {
+        if (!StringUtils.isEmpty(search)) {
             modelMap.addAttribute("showSearch", search);
         }
         Integer userAmount = userService.getUserAmount(search);
