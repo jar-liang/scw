@@ -110,6 +110,23 @@ public class UserController {
     }
 
     /**
+     *  新增用户
+     */
+    @RequestMapping("adduser.do")
+    public String addNewUser(TUser user) {
+        // 调用userService.createNewUser(user)创建用户，根据结果做判断
+        boolean result = userService.createNewUser(user);
+        // 成功，返回用户列表页面，使用重定向，直接访问list.do
+        if (result) {
+            return "redirect: list.do";
+        } else {
+            return "redirect: add.do";
+        }
+        // 失败，提示，目前用继续转发新增页面
+
+    }
+
+    /**
      *  注册或登录成功均将菜单放入session中
      * @param session
      */
