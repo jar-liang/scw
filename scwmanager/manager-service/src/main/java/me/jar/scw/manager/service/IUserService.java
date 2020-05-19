@@ -45,4 +45,9 @@ public interface IUserService {
      */
     Integer checkLogin(TUser user);
 
+    /**
+     *  根据id获取用户账户、名称、邮箱
+     */
+    TUser getUserById(String id);
+
 }

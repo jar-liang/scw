@@ -59,4 +59,12 @@ public class UserTest {
             System.out.println("login fail!");
         }
     }
+
+    @Test
+    public void testGetUserById() {
+        TUser user = userService.getUserById("500");
+        if (user != null) {
+            System.out.println(user);
+        }
+    }
 }

@@ -1,7 +1,10 @@
 package me.jar.scw.manager.controller;
 
+import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
 import me.jar.scw.manager.model.vo.PermissionVO;
+import me.jar.scw.manager.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,10 @@ import java.util.List;
  */
 @Controller
 public class DispatchController {
+
+    @Autowired
+    private IUserService userService;
+
     /**
      *  转发主页面
      * @param session
@@ -41,6 +48,33 @@ public class DispatchController {
         if (useName != null) {
             setModelMap(session, modelMap, useName);
             return "add";
+        } else {
+            return Constants.REDIRECT_TO_LOGIN;
+        }
+    }
+
+    /**
+     *  转发编辑页面
+     */
+    @RequestMapping("user/showedit.do")
+    public String showEditPage(String id, HttpSession session, ModelMap modelMap) {
+        String useName = getUserNameFromSession(session);
+        if (useName != null) {
+            // ModelMap将id放到页面上（不显示），编辑消息后取到id，根据id更新数据 TODO
+            System.out.println("user id: " + id);
+            if (id == null || "".equals(id)) {
+                return "redirect: /scw/user/list.do";
+            }
+            setModelMap(session, modelMap, useName);
+            TUser userInfo = userService.getUserById(id);
+            if (userInfo == null) {
+                return "redirect: /scw/user/list.do";
+            }
+            modelMap.addAttribute("userId", id);
+            modelMap.addAttribute("oldAccout", userInfo.getLoginAcct());
+            modelMap.addAttribute("oldName", userInfo.getUserName());
+            modelMap.addAttribute("oldEmail", userInfo.getEmail());
+            return "edit";
         } else {
             return Constants.REDIRECT_TO_LOGIN;
         }

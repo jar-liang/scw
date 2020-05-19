@@ -60,7 +60,11 @@
 			username=#{userName} AND userpswd=#{userPswd}
 	</select>
 
-	
+    <select id="selectUserById" resultType="me.jar.scw.manager.model.TUser">
+		SELECT loginacct loginAcct,username userName,email FROM t_user WHERE id=#{userId}
+	</select>
+
+
 </mapper>
 
 

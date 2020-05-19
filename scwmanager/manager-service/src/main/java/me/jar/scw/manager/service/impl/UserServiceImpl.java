@@ -88,6 +88,15 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    @Override
+    public TUser getUserById(String id) {
+        TUser user = tUserMapper.selectUserById(id);
+        if (user != null) {
+            return user;
+        }
+        return null;
+    }
+
     private static String getEncryptPwd(String pwd) {
         if (pwd == null || "".equals(pwd)) {
             return null;

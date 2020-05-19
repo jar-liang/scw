@@ -44,4 +44,9 @@ public interface TUserMapper {
      * @return
      */
     Integer checkUserLogin(TUser user);
+
+    /**
+     *  根据id查询用户
+     */
+    TUser selectUserById(String userId);
 }

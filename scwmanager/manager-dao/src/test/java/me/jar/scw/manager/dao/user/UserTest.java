@@ -56,4 +56,10 @@ public class UserTest {
         Integer count = userMapper.countAllUsers("sg");
         System.out.println(count);
     }
+
+    @Test
+    public void testSelectUserById() {
+        TUser user = userMapper.selectUserById("45");
+        System.out.println(user);
+    }
 }
