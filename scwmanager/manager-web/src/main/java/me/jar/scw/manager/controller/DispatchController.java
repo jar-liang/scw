@@ -1,5 +1,6 @@
 package me.jar.scw.manager.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
 import me.jar.scw.manager.model.vo.PermissionVO;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -78,6 +80,24 @@ public class DispatchController {
         } else {
             return Constants.REDIRECT_TO_LOGIN;
         }
+    }
+
+    /**
+     *  编辑用户信息
+     */
+    @RequestMapping("user/edituser.do")
+    @ResponseBody
+    public String editUserInfo(TUser user, HttpSession session) {
+        String useName = getUserNameFromSession(session);
+        JSONObject result = new JSONObject();
+        if (useName == null) {
+            result.put("status", "fail");
+            return result.toJSONString();
+        }
+        // 添加处理逻辑 TODO
+        System.out.println("get data: " + user);
+        result.put("status", "success");
+        return result.toJSONString();
     }
 
     /**

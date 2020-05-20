@@ -41,19 +41,19 @@
 			<div class="panel panel-default">
               <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-				<form role="form">
+				<form role="form" id="data_form">
 				  <div class="form-group">
 					<label for="accout">登陆账号</label>
-					<input type="text" class="form-control" id="accout" value="test" th:value="${oldAccout}">
-					  <input type="hidden" name="userId" value="id" th:value="${userId}">
+					<input type="text" class="form-control" id="accout" value="test" th:value="${oldAccout}" name="loginAcct">
 				  </div>
 				  <div class="form-group">
 					<label for="userName">用户名称</label>
-					<input type="text" class="form-control" id="userName" value="测试用户" th:value="${oldName}">
+					<input type="text" class="form-control" id="userName" value="测试用户" th:value="${oldName}" name="userName">
 				  </div>
+					<input type="hidden" name="id" value="id" th:value="${userId}">
 				  <div class="form-group">
 					<label for="exampleInputEmail1">邮箱地址</label>
-					<input type="email" class="form-control" id="exampleInputEmail1" value="xxxx@xxxx.com" th:value="${oldEmail}">
+					<input type="email" class="form-control" id="exampleInputEmail1" value="xxxx@xxxx.com" th:value="${oldEmail}" name="email">
 					<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
 				  </div>
 				  <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
@@ -103,6 +103,20 @@
 					}
 				});
             });
+
+            $(".btn-success").click(function () {
+				$.ajax({
+					url: "edituser.do",
+					data: $("#data_form").serialize(),
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						// 待处理 TODO
+						alert(data);
+						alert(data.status);
+					}
+				});
+			});
         </script>
   </body>
 </html>
