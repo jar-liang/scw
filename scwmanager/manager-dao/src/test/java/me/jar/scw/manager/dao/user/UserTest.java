@@ -62,4 +62,17 @@ public class UserTest {
         TUser user = userMapper.selectUserById("45");
         System.out.println(user);
     }
+
+    @Test
+    public void testUpdateUserInfo() {
+        TUser user = new TUser();
+        user.setId(58);
+        user.setLoginAcct("7777");
+        user.setUserName("7777");
+        user.setEmail("7777@77.com");
+        Integer row = userMapper.updateUserInfo(user);
+        if (row == 1) {
+            System.out.println("success");
+        }
+    }
 }

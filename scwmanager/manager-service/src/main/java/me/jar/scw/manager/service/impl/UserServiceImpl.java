@@ -26,6 +26,7 @@ public class UserServiceImpl implements IUserService {
         String userPswd = user.getUserPswd();
         userPswd = EncryptUtils.getSHACode(userPswd, "scw", "SHA-256");
         user.setUserPswd(userPswd);
+
         return tUserMapper.insertUser(user);
     }
 
@@ -38,7 +39,7 @@ public class UserServiceImpl implements IUserService {
                 return null;
             }
             return users;
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -48,7 +49,7 @@ public class UserServiceImpl implements IUserService {
         try {
             Integer num = tUserMapper.countAllUsers(search);
             return num;
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -82,7 +83,7 @@ public class UserServiceImpl implements IUserService {
             if (id != null) {
                 return id;
             }
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             System.out.println("UserServiceImpl.checkLogin fail." + e.getMessage());
         }
         return null;
@@ -90,11 +91,26 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public TUser getUserById(String id) {
-        TUser user = tUserMapper.selectUserById(id);
+        TUser user = null;
+        try {
+            user = tUserMapper.selectUserById(id);
+        } catch (DataAccessException e) {
+            System.out.println("get user info by id fail");
+        }
         if (user != null) {
             return user;
         }
         return null;
+    }
+
+    @Override
+    public Integer updateUserInfo(TUser user) {
+        try {
+            return tUserMapper.updateUserInfo(user);
+        } catch (DataAccessException e) {
+            System.out.println("update fail");
+            return 0;
+        }
     }
 
     private static String getEncryptPwd(String pwd) {

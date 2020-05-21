@@ -67,4 +67,17 @@ public class UserTest {
             System.out.println(user);
         }
     }
+
+    @Test
+    public void testUpdateUserInfo() {
+        TUser user = new TUser();
+        user.setId(58);
+        user.setLoginAcct("888");
+        user.setUserName("888");
+        user.setEmail("888@77.com");
+        Integer row = userService.updateUserInfo(user);
+        if (row == 1) {
+            System.out.println("success");
+        }
+    }
 }

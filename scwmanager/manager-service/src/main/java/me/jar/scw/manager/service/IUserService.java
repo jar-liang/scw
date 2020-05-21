@@ -50,4 +50,10 @@ public interface IUserService {
      */
     TUser getUserById(String id);
 
+    /**
+     *  更新用户信息by 用户id
+     * @return
+     */
+    Integer updateUserInfo(TUser user);
+
 }

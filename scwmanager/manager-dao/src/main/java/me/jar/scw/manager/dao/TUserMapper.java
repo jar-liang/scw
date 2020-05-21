@@ -49,4 +49,11 @@ public interface TUserMapper {
      *  根据id查询用户
      */
     TUser selectUserById(String userId);
+
+    /**
+     *  根据用户id更新用户数据
+     * @param user
+     * @return
+     */
+    Integer updateUserInfo(TUser user);
 }

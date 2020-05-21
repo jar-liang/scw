@@ -62,8 +62,7 @@ public class DispatchController {
     public String showEditPage(String id, HttpSession session, ModelMap modelMap) {
         String useName = getUserNameFromSession(session);
         if (useName != null) {
-            // ModelMap将id放到页面上（不显示），编辑消息后取到id，根据id更新数据 TODO
-            System.out.println("user id: " + id);
+            // ModelMap将id放到页面上（不显示），编辑消息后取到id，根据id更新数据
             if (id == null || "".equals(id)) {
                 return "redirect: /scw/user/list.do";
             }
@@ -82,28 +81,12 @@ public class DispatchController {
         }
     }
 
-    /**
-     *  编辑用户信息
-     */
-    @RequestMapping("user/edituser.do")
-    @ResponseBody
-    public String editUserInfo(TUser user, HttpSession session) {
-        String useName = getUserNameFromSession(session);
-        JSONObject result = new JSONObject();
-        if (useName == null) {
-            result.put("status", "fail");
-            return result.toJSONString();
-        }
-        // 添加处理逻辑 TODO
-        System.out.println("get data: " + user);
-        result.put("status", "success");
-        return result.toJSONString();
-    }
+
 
     /**
      *  从session获取用户名，用来判断是否已经登录
      */
-    private String getUserNameFromSession(HttpSession session) {
+    public static String getUserNameFromSession(HttpSession session) {
         Object userName = session.getAttribute(Constants.USER_SESSION);
         if (userName != null) {
             return (String)userName;
@@ -115,7 +98,7 @@ public class DispatchController {
     /**
      *  将用户名数据放入ModelMap
      */
-    private void setModelMap(HttpSession session, ModelMap modelMap, String userName) {
+    public static void setModelMap(HttpSession session, ModelMap modelMap, String userName) {
         userName = userName.substring(userName.lastIndexOf(':') + 1);
         modelMap.addAttribute("userName", userName);
         // 将菜单数据放进modelMap中 TODO

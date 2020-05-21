@@ -1,5 +1,7 @@
 package me.jar.scw.manager.controller.permission;
 
+import com.alibaba.fastjson.JSONObject;
+import me.jar.scw.manager.controller.DispatchController;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
 import me.jar.scw.manager.model.vo.PageVO;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -120,10 +123,31 @@ public class UserController {
         if (result) {
             return "redirect: list.do";
         } else {
+            // 失败，提示，目前用继续转发新增页面
             return "redirect: add.do";
         }
-        // 失败，提示，目前用继续转发新增页面
+    }
 
+    /**
+     *  编辑用户信息
+     */
+    @RequestMapping("edituser.do")
+    @ResponseBody
+    public String editUserInfo(TUser user, HttpSession session) {
+        String useName = DispatchController.getUserNameFromSession(session);
+        JSONObject result = new JSONObject();
+        if (useName == null) {
+            result.put("status", "fail");
+            return result.toJSONString();
+        }
+        Integer row = userService.updateUserInfo(user);
+        if (row == 1) {
+            result.put("status", "success");
+        } else {
+            System.out.println("update user info fail");
+            result.put("status", "fail");
+        }
+        return result.toJSONString();
     }
 
     /**

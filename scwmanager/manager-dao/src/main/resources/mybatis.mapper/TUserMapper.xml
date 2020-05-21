@@ -17,7 +17,7 @@
 		<if test="search != null">
 			WHERE  userName LIKE concat('%', #{search}, '%')
 		</if>
-		ORDER BY id
+		ORDER BY id DESC
 		<if test="pageNum != null and pageSize != null">
 			LIMIT #{pageNum},#{pageSize}
 		</if>
@@ -63,6 +63,18 @@
     <select id="selectUserById" resultType="me.jar.scw.manager.model.TUser">
 		SELECT loginacct loginAcct,username userName,email FROM t_user WHERE id=#{userId}
 	</select>
+
+	<update id="updateUserInfo" parameterType="me.jar.scw.manager.model.TUser">
+		UPDATE t_user
+			<set>
+				<if test="loginAcct != null">loginacct=#{loginAcct},</if>
+				<if test="userPswd != null">userpswd=#{userPswd},</if>
+				<if test="userName != null">username=#{userName},</if>
+				<if test="email != null">email=#{email},</if>
+			</set>
+		WHERE
+			id=#{id}
+	</update>
 
 
 </mapper>

@@ -111,9 +111,12 @@
 					type: "post",
 					dataType: "json",
 					success: function (data) {
-						// 待处理 TODO
-						alert(data);
-						alert(data.status);
+						// alert(data.status);
+						if (data.status == "success") {
+						    location.href = "list.do";
+                        } else {
+						    alert("更新失败，请重试！")
+                        }
 					}
 				});
 			});
