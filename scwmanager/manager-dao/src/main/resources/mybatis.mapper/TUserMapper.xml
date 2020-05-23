@@ -76,6 +76,16 @@
 			id=#{id}
 	</update>
 
+	<delete id="deleteUserById" parameterType="java.util.List">
+		DELETE FROM
+			t_user
+		WHERE
+			id
+		IN
+			<foreach collection="list" open="(" close=")" separator="," item="id">
+				#{id}
+			</foreach>
+	</delete>
 
 </mapper>
 

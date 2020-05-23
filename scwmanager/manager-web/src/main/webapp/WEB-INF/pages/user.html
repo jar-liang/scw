@@ -129,6 +129,20 @@
                 location.href = "showedit.do?id=" + id;
             });
 
+            $("tbody .btn-danger").click(function () {
+                var id = $(this).parent().parent().children().first().html();
+                alert("id is " + id);
+                $.ajax({
+                    url: "deleteuser.do",
+                    data: "id=" + id,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data.status);
+                    }
+                });
+            });
+
             // 添加url中参数的值
             function updateUrlParam(name, val) {
                 var thisUrl = document.location.href;

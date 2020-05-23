@@ -114,7 +114,9 @@
 						// alert(data.status);
 						if (data.status == "success") {
 						    location.href = "list.do";
-                        } else {
+                        } esle if (data.status == "no login") {
+							location.href = "/scw/login.html";
+						}else {
 						    alert("更新失败，请重试！")
                         }
 					}

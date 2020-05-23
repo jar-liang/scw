@@ -105,12 +105,24 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Integer updateUserInfo(TUser user) {
+        Integer row = 0;
         try {
-            return tUserMapper.updateUserInfo(user);
+            row =  tUserMapper.updateUserInfo(user);
         } catch (DataAccessException e) {
             System.out.println("update fail");
-            return 0;
         }
+        return row;
+    }
+
+    @Override
+    public Integer deleteUser(List<Integer> idList) {
+        Integer row = 0;
+        try {
+            row = tUserMapper.deleteUserById(idList);
+        } catch (DataAccessException e) {
+            System.out.println("delete user fail");
+        }
+        return row;
     }
 
     private static String getEncryptPwd(String pwd) {

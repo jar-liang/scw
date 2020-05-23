@@ -56,4 +56,11 @@ public interface IUserService {
      */
     Integer updateUserInfo(TUser user);
 
+    /**
+     *  删除用户
+     * @param idList
+     * @return
+     */
+    Integer deleteUser(List<Integer> idList);
+
 }

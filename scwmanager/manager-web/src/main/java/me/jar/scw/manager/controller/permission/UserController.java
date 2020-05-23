@@ -137,7 +137,7 @@ public class UserController {
         String useName = DispatchController.getUserNameFromSession(session);
         JSONObject result = new JSONObject();
         if (useName == null) {
-            result.put("status", "fail");
+            result.put("status", "no login");
             return result.toJSONString();
         }
         Integer row = userService.updateUserInfo(user);
@@ -147,6 +147,24 @@ public class UserController {
             System.out.println("update user info fail");
             result.put("status", "fail");
         }
+        return result.toJSONString();
+    }
+
+    /**
+     *  删除用户
+     */
+    @RequestMapping("deleteuser.do")
+    @ResponseBody
+    public String deleteUser(String id, HttpSession session) {
+        String useName = DispatchController.getUserNameFromSession(session);
+        JSONObject result = new JSONObject();
+        if (useName == null) {
+            result.put("status", "no login");
+            return result.toJSONString();
+        }
+        // 处理删除业务
+        System.out.println("id is: " + id);
+        result.put("status", "success");
         return result.toJSONString();
     }
 

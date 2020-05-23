@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,5 +75,12 @@ public class UserTest {
         if (row == 1) {
             System.out.println("success");
         }
+    }
+
+    @Test
+    public void testDeleteUserById() {
+        List<Integer> idList = Arrays.asList(93,96);
+        Integer row = userMapper.deleteUserById(idList);
+        System.out.println("delete number: " + row);
     }
 }

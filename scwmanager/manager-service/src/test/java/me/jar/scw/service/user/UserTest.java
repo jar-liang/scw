@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class UserTest {
     @Test
     public void testCreateNewUser() {
         TUser user = new TUser();
-        user.setUserName("Jerry");
+        user.setUserName("我顶");
         user.setUserPswd("123456");
         user.setEmail("12@33.com");
         boolean result = userService.createNewUser(user);
@@ -79,5 +81,12 @@ public class UserTest {
         if (row == 1) {
             System.out.println("success");
         }
+    }
+
+    @Test
+    public void testDeleteUser() {
+        List<Integer> idList = Arrays.asList(83,84);
+        Integer row = userService.deleteUser(idList);
+        System.out.println("delete number: " + row);
     }
 }

@@ -56,4 +56,11 @@ public interface TUserMapper {
      * @return
      */
     Integer updateUserInfo(TUser user);
+
+    /**
+     *  根据id删除用户
+     * @param idList
+     * @return
+     */
+    Integer deleteUserById(List<Integer> idList);
 }
