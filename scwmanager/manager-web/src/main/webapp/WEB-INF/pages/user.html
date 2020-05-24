@@ -48,7 +48,7 @@
   </div>
   <button type="submit" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
-<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+<button type="button" class="btn btn-danger del_all_btn" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.do'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
@@ -57,7 +57,7 @@
               <thead>
                 <tr >
                   <th width="30">#</th>
-				  <th width="30"><input type="checkbox"></th>
+				  <th width="30"><input type="checkbox" id="check_all"></th>
                   <th>账号</th>
                   <th>名称</th>
                   <th>邮箱地址</th>
@@ -67,7 +67,7 @@
               <tbody th:if="${pageVO != null}">
                 <tr th:each="user : ${pageVO.list}">
                   <td th:text="${user.getId()}">1</td>
-				  <td><input type="checkbox"></td>
+				  <td><input type="checkbox" class="check"></td>
                   <td th:text="${user.getUserName()}">Lorem</td>
                   <td th:text="${user.getLoginAcct()}">ipsum</td>
                   <td th:text="${user.getEmail()}">dolor</td>
@@ -131,14 +131,65 @@
 
             $("tbody .btn-danger").click(function () {
                 var id = $(this).parent().parent().children().first().html();
-                alert("id is " + id);
+                if (!confirm("确定删除id为" + id + "的用户？")) {
+                    return;
+                }
                 $.ajax({
                     url: "deleteuser.do",
                     data: "id=" + id,
                     type: "post",
                     dataType: "json",
                     success: function (data) {
-                        alert(data.status);
+                        if (data.status == "success") {
+                            location.href = "list.do";
+                        } else if (data.status == "no login") {
+                            location.href = "/scw/login.html";
+                        } else {
+                            alert("删除失败，请联系管理员");
+                        }
+                    }
+                });
+            });
+
+            function checkall_reverse(check_all_btn, check_btn) {
+                check_all_btn.click(function(){
+                    check_btn.prop("checked", $(this).prop("checked"));
+                });
+                check_btn.click(function(){
+                    var flag = check_btn.filter(":checked").length == check_btn.length;
+                    check_all_btn.prop("checked", flag);
+                })
+            }
+
+            checkall_reverse($("#check_all"), $(".check"));
+
+            $(".del_all_btn").click(function () {
+                var ids = "id=";
+                $(".check").filter(":checked").each(function () {
+                    var id = $(this).parent().parent().children().first().html();
+                    ids += id + ",";
+                });
+                var idParam = ids.substring(0, ids.length - 1);
+                if (idParam.length < 4) {
+                    alert("请先选中要删除的用户");
+                    return;
+                }
+                if (!confirm("确定删除" + idParam + "的用户？")) {
+                    return;
+                }
+                $.ajax({
+                    url: "deleteuser.do",
+                    data: idParam,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            location.href = "list.do";
+                        } else if (data.status == "no login") {
+                            location.href = "/scw/login.html";
+                        } else {
+                            alert("删除失败，请联系管理员");
+                        }
                     }
                 });
             });

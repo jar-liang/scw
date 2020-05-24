@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -163,9 +164,45 @@ public class UserController {
             return result.toJSONString();
         }
         // 处理删除业务
-        System.out.println("id is: " + id);
-        result.put("status", "success");
-        return result.toJSONString();
+        List<Integer> idList = getIdList(id);
+        if (idList == null || idList.isEmpty()) {
+            result.put("status", "fail");
+            return result.toJSONString();
+        }
+        Integer row = userService.deleteUser(idList);
+        if (row > 0) {
+            result.put("status", "success");
+            return result.toJSONString();
+        } else {
+            result.put("status", "fail");
+            return result.toJSONString();
+        }
+    }
+
+    /**
+     *  将前端返回的id进行拆分，分别放入list中
+     * @param id
+     * @return
+     */
+    private List<Integer> getIdList(String id) {
+        if (StringUtils.isEmpty(id)) {
+            return null;
+        }
+        List<Integer> ids = new ArrayList<>();
+        try {
+            if (id.contains(",")) {
+                String[] splitId = id.split(",");
+                for (String part : splitId) {
+                    ids.add(Integer.valueOf(part));
+                }
+            } else {
+                ids.add(Integer.valueOf(id));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("invalid format number");
+            ids = null;
+        }
+        return ids;
     }
 
     /**
