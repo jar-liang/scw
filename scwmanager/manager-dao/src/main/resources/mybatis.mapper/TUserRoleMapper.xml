@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：对应哪个接口 -->
+<mapper namespace="me.jar.scw.manager.dao.TUserRoleMapper">
+	<select id="selectRoleByUserId" resultType="me.jar.scw.manager.model.TRole">
+		SELECT t.id,t.name FROM t_role t
+			LEFT JOIN t_user_role tu ON tu.roleid=t.id
+			LEFT JOIN t_user u ON u.id=tu.userid WHERE u.id=#{id}
+	</select>
+
+</mapper>
+
+
