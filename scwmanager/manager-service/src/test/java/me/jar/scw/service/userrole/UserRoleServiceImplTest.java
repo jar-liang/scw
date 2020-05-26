@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -26,6 +27,22 @@ public class UserRoleServiceImplTest {
         Integer id = 74;
         List<TRole> roleList = userRoleService.findUserRoleById(id);
         System.out.println(JSON.toJSONString(roleList));
+    }
+
+    @Test
+    public void testFindAllRoles() {
+        List<TRole> allRoles = userRoleService.findAllRoles();
+        allRoles.forEach(role -> System.out.println(role.getId() + " : " + role.getName()));
+    }
+
+    @Test
+    public void testGetPartRoles() {
+        Integer id = 74;
+        Map<String, List<TRole>> partRoles = userRoleService.getPartRoles(id);
+        List<TRole> ownRoleList = partRoles.get("own");
+        List<TRole> notOwnRoleList = partRoles.get("notOwn");
+        ownRoleList.forEach(role -> System.out.println("拥有： " + role.getName()));
+        notOwnRoleList.forEach(role -> System.out.println("未拥有： " + role.getName()));
     }
 
 }

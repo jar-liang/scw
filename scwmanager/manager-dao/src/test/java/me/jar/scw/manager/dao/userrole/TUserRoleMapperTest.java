@@ -28,4 +28,10 @@ public class TUserRoleMapperTest {
             System.out.println(role.getId() + " : " + role.getName());
         }
     }
+
+    @Test
+    public void testSelectAllRole() {
+        List<TRole> roleList = userRoleMapper.selectAllRole();
+        roleList.forEach(role -> System.out.println(role.getId() + " : " + role.getName()));
+    }
 }

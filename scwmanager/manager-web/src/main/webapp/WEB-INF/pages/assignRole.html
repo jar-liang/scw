@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+	  <link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+	  <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+	  <link rel="stylesheet" href="css/doc.min.css" th:href="@{/css/doc.min.css}">
+	  <script src="jquery/jquery-2.1.1.min.js" th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
+	  <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	  <script src="script/docs.min.js" th:src="@{/script/docs.min.js}"></script>
+	<style>
+	.tree li {
+        list-style-type: none;
+		cursor:pointer;
+	}
+	</style>
+  </head>
+
+  <body>
+
+  <nav th:replace="module/nav::nav"></nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+			<div th:replace="module/menu::userMenu"></div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<ol class="breadcrumb">
+				  <li><a href="#">首页</a></li>
+				  <li><a href="#">数据列表</a></li>
+				  <li class="active">分配角色</li>
+				</ol>
+			<div class="panel panel-default">
+			  <div class="panel-body">
+				<form role="form" class="form-inline">
+				  <div class="form-group">
+					<label for="notAssign">未分配角色列表</label><br>
+					<select class="form-control unsign" multiple size="10" id="notAssign" style="width:100px;overflow-y:auto;">
+                        <option value="pm"  th:each="role : ${notOwnRoleList}" th:value="${role.getId()}" th:text="${role.getName()}">PM</option>
+                    </select>
+				  </div>
+					<input type="hidden" name="id" value="id" th:value="${userId}">
+				  <div class="form-group">
+                        <ul>
+                            <li class="btn btn-default glyphicon glyphicon-chevron-right"></li>
+                            <br>
+                            <li class="btn btn-default glyphicon glyphicon-chevron-left" style="margin-top:20px;"></li>
+                        </ul>
+				  </div>
+				  <div class="form-group" style="margin-left:40px;">
+					<label for="assign">已分配角色列表</label><br>
+					<select class="form-control sign" multiple size="10" id="assign" style="width:100px;overflow-y:auto;">
+                        <option value="qa"  th:each="role : ${ownRoleList}" th:value="${role.getId()}" th:text="${role.getName()}">QA</option>
+                    </select>
+				  </div>
+				</form>
+			  </div>
+			</div>
+        </div>
+      </div>
+    </div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">帮助</h4>
+		  </div>
+		  <div class="modal-body">
+			<div class="bs-callout bs-callout-info">
+				<h4>测试标题1</h4>
+				<p>测试内容1，测试内容1，测试内容1，测试内容1，测试内容1，测试内容1</p>
+			  </div>
+			<div class="bs-callout bs-callout-info">
+				<h4>测试标题2</h4>
+				<p>测试内容2，测试内容2，测试内容2，测试内容2，测试内容2，测试内容2</p>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+        <script type="text/javascript">
+            $(function () {
+			    $(".list-group-item").click(function(){
+				    if ( $(this).find("ul") ) {
+						$(this).toggleClass("tree-closed");
+						if ( $(this).hasClass("tree-closed") ) {
+							$("ul", this).hide("fast");
+						} else {
+							$("ul", this).show("fast");
+						}
+					}
+				});
+            });
+
+			$(".glyphicon-chevron-right").click(function(){
+				// 页面效果，将左边内容移到右边
+				$(".unsign :selected").appendTo($(".sign"));
+				// 使用ajax，添加新增的角色
+			});
+			$(".glyphicon-chevron-left").click(function(){
+				// 页面效果，将右边内容移到左边
+				$(".sign :selected").appendTo($(".unsign"));
+				// 使用ajax，减去移去的角色
+			});
+        </script>
+  </body>
+</html>

@@ -129,6 +129,11 @@
                 location.href = "showedit.do?id=" + id;
             });
 
+            $("tbody .btn-success").click(function () {
+                var id = $(this).parent().parent().children().first().html();
+                location.href = "showassignrole.do?id=" + id;
+            });
+
             $("tbody .btn-danger").click(function () {
                 var id = $(this).parent().parent().children().first().html();
                 if (!confirm("确定删除id为" + id + "的用户？")) {

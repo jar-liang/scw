@@ -10,6 +10,10 @@
 			LEFT JOIN t_user u ON u.id=tu.userid WHERE u.id=#{id}
 	</select>
 
+	<select id="selectAllRole" resultType="me.jar.scw.manager.model.TRole">
+		SELECT * FROM t_role
+	</select>
+
 </mapper>
 
 

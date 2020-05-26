@@ -11,4 +11,6 @@ import java.util.List;
 public interface TUserRoleMapper {
     List<TRole> selectRoleByUserId(Integer id);
 
+    List<TRole> selectAllRole();
+
 }

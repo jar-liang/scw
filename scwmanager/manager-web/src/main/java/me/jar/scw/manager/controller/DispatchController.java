@@ -1,9 +1,11 @@
 package me.jar.scw.manager.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import me.jar.scw.manager.model.TRole;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
 import me.jar.scw.manager.model.vo.PermissionVO;
+import me.jar.scw.manager.service.IUserRoleService;
 import me.jar.scw.manager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description 转发页面
@@ -23,6 +26,9 @@ public class DispatchController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
     /**
      *  转发主页面
@@ -76,6 +82,34 @@ public class DispatchController {
             modelMap.addAttribute("oldName", userInfo.getUserName());
             modelMap.addAttribute("oldEmail", userInfo.getEmail());
             return "edit";
+        } else {
+            return Constants.REDIRECT_TO_LOGIN;
+        }
+    }
+
+    @RequestMapping("user/showassignrole.do")
+    public String showAssignRole(String id, HttpSession session, ModelMap modelMap) {
+        String useName = getUserNameFromSession(session);
+        if (useName != null) {
+            // ModelMap将id放到页面上（不显示），编辑消息后取到id，根据id更新数据
+            if (id == null || "".equals(id)) {
+                return "redirect: /scw/user/list.do";
+            }
+            Integer numId;
+            try {
+                numId = Integer.valueOf(id);
+            } catch (NumberFormatException e) {
+                System.out.println("invalid id");
+                return "redirect: /scw/user/list.do";
+            }
+            Map<String, List<TRole>> partRoles = userRoleService.getPartRoles(numId);
+            List<TRole> ownRoleList = partRoles.get("own");
+            List<TRole> notOwnRoleList = partRoles.get("notOwn");
+            setModelMap(session, modelMap, useName);
+            modelMap.addAttribute("userId", id);
+            modelMap.addAttribute("ownRoleList", ownRoleList);
+            modelMap.addAttribute("notOwnRoleList", notOwnRoleList);
+            return "assignRole";
         } else {
             return Constants.REDIRECT_TO_LOGIN;
         }
