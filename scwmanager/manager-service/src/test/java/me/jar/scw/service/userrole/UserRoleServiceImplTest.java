@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,25 @@ public class UserRoleServiceImplTest {
         List<TRole> notOwnRoleList = partRoles.get("notOwn");
         ownRoleList.forEach(role -> System.out.println("拥有： " + role.getName()));
         notOwnRoleList.forEach(role -> System.out.println("未拥有： " + role.getName()));
+    }
+
+    @Test
+    public void testAddRoles() {
+        Integer userId = 55;
+        List<Integer> addRoleList = new ArrayList<>();
+        addRoleList.add(2);
+        addRoleList.add(4);
+        Integer row = userRoleService.addRoles(userId, addRoleList);
+        System.out.println(row);
+    }
+
+    @Test
+    public void testDeleteUserRole() {
+        Integer userId = 55;
+        List<Integer> roleIdList = new ArrayList<>();
+        roleIdList.add(1);
+        Integer row = userRoleService.deleteUserRole(userId, roleIdList);
+        System.out.println(row);
     }
 
 }

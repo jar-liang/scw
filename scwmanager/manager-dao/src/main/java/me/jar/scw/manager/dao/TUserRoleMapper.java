@@ -1,6 +1,7 @@
 package me.jar.scw.manager.dao;
 
 import me.jar.scw.manager.model.TRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,5 +13,9 @@ public interface TUserRoleMapper {
     List<TRole> selectRoleByUserId(Integer id);
 
     List<TRole> selectAllRole();
+
+    Integer insertRoleByUserId(@Param("userId") Integer userId, @Param("roleIdList") List<Integer> roleIdList);
+
+    Integer deleteRoleIdUserId(@Param("userId") Integer userId, @Param("roleIdList") List<Integer> roleIdList);
 
 }

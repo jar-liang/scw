@@ -55,4 +55,33 @@ public class UserRoleServiceImpl implements IUserRoleService {
         rolesMap.put("notOwn", allRoles);
         return rolesMap;
     }
+
+    @Override
+    public Integer addRoles(Integer userId, List<Integer> roleIdList) {
+        // 先查询用户已有的角色roleId
+        List<TRole> userOwnRoles = findUserRoleById(userId);
+        if (userOwnRoles == null) {
+            return null;
+        }
+        List<Integer> ownRoleId = new ArrayList<>();
+        userOwnRoles.forEach(role -> ownRoleId.add(role.getId()));
+        roleIdList.removeAll(ownRoleId);
+        // 再将角色添加到数据
+        try {
+            return userRoleMapper.insertRoleByUserId(userId, roleIdList);
+        } catch (DataAccessException e) {
+            System.out.println("add roles fail");
+        }
+        return null;
+    }
+
+    @Override
+    public Integer deleteUserRole(Integer userId, List<Integer> roleIdList) {
+        try {
+            return userRoleMapper.deleteRoleIdUserId(userId, roleIdList);
+        } catch (DataAccessException e) {
+            System.out.println("fail to delete user role");
+        }
+        return null;
+    }
 }

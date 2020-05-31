@@ -29,4 +29,20 @@ public interface IUserRoleService {
      * @return
      */
     Map<String, List<TRole>> getPartRoles(Integer id);
+
+    /**
+     *  给用户添加新角色
+     * @param userId
+     * @param roleIdList
+     * @return
+     */
+    Integer addRoles(Integer userId, List<Integer> roleIdList);
+
+    /**
+     *  根据用户id和角色id删除对应的数据，即移除用户角色
+     * @param userId
+     * @param roleIdList
+     * @return
+     */
+    Integer deleteUserRole(Integer userId, List<Integer> roleIdList);
 }

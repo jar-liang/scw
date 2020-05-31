@@ -102,14 +102,60 @@
             });
 
 			$(".glyphicon-chevron-right").click(function(){
-				// 页面效果，将左边内容移到右边
-				$(".unsign :selected").appendTo($(".sign"));
+				var ids = "ids=";
+				$(".unsign :selected").each(function () {
+					ids  += $(this).val() + ",";
+				});
+				if (ids.length < 5) {
+					alert("请先选中左边的角色");
+					return;
+				}
+                ids = ids.substring(0, ids.length - 1);
+				var userId = $("input[type='hidden']").val();
+				ids += "&userId=" + userId;
 				// 使用ajax，添加新增的角色
+				$.ajax({
+					url: "/scw/role/addrole.do",
+					data: ids,
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						if (data.status == "success") {
+                            // 页面效果，将左边内容移到右边
+                            $(".unsign :selected").appendTo($(".sign"));
+                        } else {
+						    alert("分配角色失败，请联系管理员");
+                        }
+					}
+				});
 			});
 			$(".glyphicon-chevron-left").click(function(){
-				// 页面效果，将右边内容移到左边
-				$(".sign :selected").appendTo($(".unsign"));
+                var ids = "ids=";
+                $(".sign :selected").each(function () {
+                    ids  += $(this).val() + ",";
+                });
+                if (ids.length < 5) {
+                    alert("请先选中右边的角色");
+                    return;
+                }
+                ids = ids.substring(0, ids.length - 1);
+                var userId = $("input[type='hidden']").val();
+                ids += "&userId=" + userId;
 				// 使用ajax，减去移去的角色
+                $.ajax({
+                    url: "/scw/role/delrole.do",
+                    data: ids,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            // 页面效果，将右边内容移到左边
+                            $(".sign :selected").appendTo($(".unsign"));
+                        } else {
+                            alert("除去角色失败，请联系管理员");
+                        }
+                    }
+                });
 			});
         </script>
   </body>

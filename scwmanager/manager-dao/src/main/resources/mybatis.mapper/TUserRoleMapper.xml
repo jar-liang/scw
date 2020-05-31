@@ -4,7 +4,7 @@
 
 <!-- namespace：对应哪个接口 -->
 <mapper namespace="me.jar.scw.manager.dao.TUserRoleMapper">
-	<select id="selectRoleByUserId" resultType="me.jar.scw.manager.model.TRole">
+    <select id="selectRoleByUserId" resultType="me.jar.scw.manager.model.TRole">
 		SELECT t.id,t.name FROM t_role t
 			LEFT JOIN t_user_role tu ON tu.roleid=t.id
 			LEFT JOIN t_user u ON u.id=tu.userid WHERE u.id=#{id}
@@ -14,6 +14,21 @@
 		SELECT * FROM t_role
 	</select>
 
+	<insert id="insertRoleByUserId">
+		INSERT INTO t_user_role(userid,roleid) VALUES
+		<foreach collection="roleIdList" item="roleId" separator=",">
+			(#{userId},#{roleId})
+		</foreach>
+	</insert>
+
+	<delete id="deleteRoleIdUserId">
+		DELETE FROM t_user_role WHERE id IN
+		(SELECT t.id FROM (SELECT id,roleid FROM t_user_role WHERE userid=#{userId}) t WHERE t.roleid IN
+		<foreach collection="roleIdList" open="(" close=")" separator="," item="roleId">
+			#{roleId}
+		</foreach>
+		)
+	</delete>
 </mapper>
 
 
