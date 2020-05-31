@@ -47,10 +47,9 @@ public class TUserRoleMapperTest {
 
     @Test
     public void testDeleteRoleIdUserId() {
-        Integer userId = 55;
+        Integer userId = 68;
         List<Integer> roleIdList = new ArrayList<>();
-        roleIdList.add(2);
-        roleIdList.add(3);
+        roleIdList.add(6);
         Integer row = userRoleMapper.deleteRoleIdUserId(userId, roleIdList);
         System.out.println(row);
     }

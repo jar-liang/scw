@@ -22,12 +22,10 @@
 	</insert>
 
 	<delete id="deleteRoleIdUserId">
-		DELETE FROM t_user_role WHERE id IN
-		(SELECT t.id FROM (SELECT id,roleid FROM t_user_role WHERE userid=#{userId}) t WHERE t.roleid IN
-		<foreach collection="roleIdList" open="(" close=")" separator="," item="roleId">
-			#{roleId}
-		</foreach>
-		)
+		DELETE FROM t_user_role WHERE userid=#{userId} AND roleid IN
+			<foreach collection="roleIdList" open="(" close=")" separator="," item="roleId">
+				#{roleId}
+			</foreach>
 	</delete>
 </mapper>
 
