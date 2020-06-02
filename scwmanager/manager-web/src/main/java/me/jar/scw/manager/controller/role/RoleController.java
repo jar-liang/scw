@@ -1,13 +1,21 @@
 package me.jar.scw.manager.controller.role;
 
 import com.alibaba.fastjson.JSONObject;
+import me.jar.scw.manager.model.TRole;
+import me.jar.scw.manager.model.constant.Constants;
+import me.jar.scw.manager.model.vo.PageVO;
+import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IUserRoleService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +109,41 @@ public class RoleController {
             result.put(STATUS, FAIL);
         }
         return result.toJSONString();
+    }
+
+    /**
+     *  查出所有角色
+     * @param pageNum
+     * @param pageListSize
+     * @param search
+     * @param modelMap
+     * @param session
+     * @return
+     */
+    @RequestMapping("rolelist.do")
+    public String showRoleList(@RequestParam(value = "num", defaultValue = "1") Integer pageNum,
+                               @RequestParam(value = "size", defaultValue = "10")Integer pageListSize,
+                               @RequestParam(value = "search", required = false) String search,
+                               ModelMap modelMap, HttpSession session) {
+        //3.把菜单页放入modelMap中
+        List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
+        modelMap.addAttribute("userMenu", userMenu);
+        // 回显search的内容
+        if (!StringUtils.isEmpty(search)) {
+            modelMap.addAttribute("showSearch", search);
+        }
+        Integer roleAmount = userRoleService.getRoleAmount(search);
+        if (roleAmount == null || roleAmount == 0) {
+            modelMap.addAttribute("pageVO", null);
+        } else {
+            // 通过页数和关键字查找角色数据
+            List<TRole> userRole = userRoleService.findUserRoleByKeyWord(pageNum, pageListSize, search);
+            // 分页
+            PageVO<TRole> pageVO = new PageVO<>(pageNum, pageListSize, roleAmount);
+            pageVO.setList(userRole);
+            modelMap.addAttribute("pageVO", pageVO);
+        }
+        return "role";
     }
 
 

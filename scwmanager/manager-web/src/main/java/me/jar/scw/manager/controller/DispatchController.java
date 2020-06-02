@@ -1,17 +1,17 @@
 package me.jar.scw.manager.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import me.jar.scw.manager.model.TRole;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
+import me.jar.scw.manager.model.vo.PageVO;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IUserRoleService;
 import me.jar.scw.manager.service.IUserService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -113,6 +113,26 @@ public class DispatchController {
         } else {
             return Constants.REDIRECT_TO_LOGIN;
         }
+    }
+
+    @RequestMapping("role/rolemanager.do")
+    public String showRoleManagerPage(HttpSession session, ModelMap modelMap) {
+        String useName = getUserNameFromSession(session);
+        if (useName == null) {
+            return Constants.REDIRECT_TO_LOGIN;
+        }
+        // 将菜单和登录用户名放进ModelMap中
+        setModelMap(session, modelMap, useName);
+        // 将查出的角色数据放进ModelMap中
+        List<TRole> allRoles = userRoleService.findAllRoles();
+        if (CollectionUtils.isEmpty(allRoles)) {
+            modelMap.addAttribute("pageVO", null);
+        } else {
+            PageVO<TRole> pageVO = new PageVO<>(1, 10, allRoles.size());
+            pageVO.setList(allRoles);
+            modelMap.addAttribute("pageVO", pageVO);
+        }
+        return "role";
     }
 
 

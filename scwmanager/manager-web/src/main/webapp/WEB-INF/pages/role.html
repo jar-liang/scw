@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="UTF-8" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+	  <link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+	  <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+	  <script src="jquery/jquery-2.1.1.min.js" th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
+	  <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	  <script src="script/docs.min.js" th:src="@{/script/docs.min.js}"></script>
+	<style>
+	.tree li {
+        list-style-type: none;
+		cursor:pointer;
+	}
+	table tbody tr:nth-child(odd){background:#F4F4F4;}
+	table tbody td:nth-child(even){color:#C00;}
+	</style>
+  </head>
+
+  <body>
+
+  <nav th:replace="module/nav::nav"></nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+			<div th:replace="module/menu::userMenu"></div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+				<h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
+			  </div>
+			  <div class="panel-body">
+<form class="form-inline" role="form" style="float:left;">
+  <div class="form-group has-feedback">
+    <div class="input-group">
+      <div class="input-group-addon">查询条件</div>
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+    </div>
+  </div>
+  <button type="button" class="btn btn-warning" id="search_btn"><i class="glyphicon glyphicon-search"></i> 查询</button>
+</form>
+<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<br>
+ <hr style="clear:both;">
+          <div class="table-responsive">
+            <table class="table  table-bordered">
+              <thead>
+                <tr >
+                  <th width="30">#</th>
+				  <th width="30"><input type="checkbox"></th>
+                  <th>名称</th>
+                  <th width="100">操作</th>
+                </tr>
+              </thead>
+              <tbody th:if="${pageVO != null}">
+                <tr th:each="role : ${pageVO.list}">
+                  <td th:text="${role.getId()}">1</td>
+				  <td><input type="checkbox"></td>
+                  <td th:text="${role.getName()}">PM - 项目经理</td>
+                  <td>
+				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+				  </td>
+                </tr>
+
+              </tbody>
+                <tbody th:if="${pageVO == null}">
+                    <tr>
+                        <td colspan="4" align="center">查询不到数据</td>
+                    </tr>
+                </tbody>
+			  <tfoot th:if="${pageVO != null}">
+			     <tr>
+				     <td colspan="6" align="center">
+						<ul class="pagination">
+                            <li><a th:href="@{/role/rolelist.do(num=1)}">首页</a></li>
+                            <!-- 上一页 -->
+                            <li th:if="${pageVO.hasPrePage == false}"><span style="color : gray">上一页</span></li>
+                            <li th:if="${pageVO.hasPrePage == true}"><a th:href="@{/role/rolelist.do(num=${pageVO.pageNum - 1})}">上一页</a></li>
+                            <!--   总页数大于0且小于等于5  -->
+                            <th:block th:if="${pageVO.totalPage > 0 && pageVO.totalPage <=5}" th:each="page : ${pageVO.showPages}">
+                                <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                    <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                </a>
+                                </li>
+                            </th:block>
+                            <!--   总页数页数等于6  -->
+                            <th:block th:if="${pageVO.totalPage ==6}" >
+                                <th:block th:if="${pageVO.pageNum <= 3}" >
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum > 3}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                            <!--   总页数页数大于6  -->
+                            <th:block th:if="${pageVO.totalPage > 6}" >
+                                <th:block th:if="${pageVO.pageNum <= 3}" >
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum > 3 && pageVO.pageNum < pageVO.totalPage - 2}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                    <li><span>...</span></li>
+                                </th:block>
+                                <th:block th:if="${pageVO.pageNum >= pageVO.totalPage - 2}" >
+                                    <li><span>...</span></li>
+                                    <th:block th:each="page : ${pageVO.showPages}">
+                                        <li><a th:href="@{/role/rolelist.do(num=${page})}">
+                                            <span th:text="${page}" th:style="${page} == ${pageVO.pageNum} ? 'color : red' : '' ">No.</span>
+                                        </a>
+                                        </li>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                            <!-- 下一页 -->
+                            <li th:if="${pageVO.hasNextPage == false}"><span style="color: gray">下一页</span></li>
+                            <li th:if="${pageVO.hasNextPage == true}"><a th:href="@{/role/rolelist.do(num=${pageVO.pageNum + 1})}">下一页</a></li>
+                            <li><a th:href="@{/role/rolelist.do(num=${pageVO.totalPage})}" th:text="'末页 - ' + ${pageVO.totalPage}">末页</a></li>
+							 </ul>
+					 </td>
+				 </tr>
+
+			  </tfoot>
+            </table>
+          </div>
+			  </div>
+			</div>
+        </div>
+      </div>
+    </div>
+
+        <script type="text/javascript">
+            $(function () {
+			    $(".list-group-item").click(function(){
+				    if ( $(this).find("ul") ) {
+						$(this).toggleClass("tree-closed");
+						if ( $(this).hasClass("tree-closed") ) {
+							$("ul", this).hide("fast");
+						} else {
+							$("ul", this).show("fast");
+						}
+					}
+				});
+            });
+			// 将导航栏-菜单名改成当前菜单名
+            $("#nav-page-name").text($("a[href='/scw/role/rolemanager.do'] span").text());
+            $("a[href='/scw/role/rolemanager.do']").css("color", "red");
+            $("a[href='/scw/role/rolemanager.do']").parents(".list-group-item").removeClass("tree-closed").children("ul").show(10);
+            
+            $("tbody .btn-success").click(function(){
+                window.location.href = "assignPermission.html";
+            });
+        </script>
+  </body>
+</html>

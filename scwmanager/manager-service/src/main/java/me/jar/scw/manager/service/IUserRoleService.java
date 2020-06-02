@@ -45,4 +45,20 @@ public interface IUserRoleService {
      * @return
      */
     Integer deleteUserRole(Integer userId, List<Integer> roleIdList);
+
+    /**
+     *  通过分页，关键字查询角色数据
+     * @param pageNum
+     * @param pageListSize
+     * @param search
+     * @return
+     */
+    List<TRole> findUserRoleByKeyWord(Integer pageNum, Integer pageListSize, String search);
+
+    /**
+     *  查找关键字查询角色数量
+     * @param search
+     * @return
+     */
+    Integer getRoleAmount(String search);
 }

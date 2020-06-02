@@ -84,4 +84,16 @@ public class UserRoleServiceImpl implements IUserRoleService {
         }
         return null;
     }
+
+    @Override
+    public List<TRole> findUserRoleByKeyWord(Integer pageNum, Integer pageListSize, String search) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Integer getRoleAmount(String search) {
+        // TODO
+        return null;
+    }
 }
