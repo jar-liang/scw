@@ -53,4 +53,22 @@ public class TUserRoleMapperTest {
         Integer row = userRoleMapper.deleteRoleIdUserId(userId, roleIdList);
         System.out.println(row);
     }
+
+    @Test
+    public void testSelectRoleByKeyWord() {
+        List<TRole> roleList = userRoleMapper.selectRoleByKeyWord(0, 10, "经理");
+        roleList.forEach(role -> System.out.println(role.getName()));
+    }
+
+    @Test
+    public void testCountRoleNumByKeyWord() {
+        Integer row = userRoleMapper.countRoleNumByKeyWord("师");
+        System.out.println(row);
+    }
+
+    @Test
+    public void testSelectTenRole() {
+        List<TRole> roleList = userRoleMapper.selectTenRole();
+        roleList.forEach(role -> System.out.println(role.getName()));
+    }
 }

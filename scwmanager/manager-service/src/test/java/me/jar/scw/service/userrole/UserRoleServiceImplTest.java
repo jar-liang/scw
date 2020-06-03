@@ -65,4 +65,25 @@ public class UserRoleServiceImplTest {
         System.out.println(row);
     }
 
+    @Test
+    public void testFindUserRoleByKeyWord() {
+        Integer pageNum = 1;
+        Integer pageSize = 10;
+        String searchKey = "h";
+        List<TRole> roles = userRoleService.findUserRoleByKeyWord(pageNum, pageSize, searchKey);
+        roles.forEach(role -> System.out.println(role.getName()));
+    }
+
+    @Test
+    public void testGetRoleAmount() {
+        Integer amount = userRoleService.getRoleAmount("j");
+        System.out.println(amount);
+    }
+
+    @Test
+    public void testFindTenRoles() {
+        List<TRole> tenRoles = userRoleService.findTenRoles();
+        tenRoles.forEach(role -> System.out.println(role.getName()));
+    }
+
 }

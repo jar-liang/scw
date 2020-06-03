@@ -14,7 +14,7 @@
 		SELECT * FROM t_role
 	</select>
 
-	<insert id="insertRoleByUserId">
+    <insert id="insertRoleByUserId">
 		INSERT INTO t_user_role(userid,roleid) VALUES
 		<foreach collection="roleIdList" item="roleId" separator=",">
 			(#{userId},#{roleId})
@@ -27,6 +27,27 @@
 				#{roleId}
 			</foreach>
 	</delete>
+
+	<select id="selectRoleByKeyWord" resultType="me.jar.scw.manager.model.TRole">
+		SELECT * FROM t_role
+		<if test="keyWord != null">
+			WHERE name LIKE concat('%',#{keyWord},'%')
+		</if>
+		<if test="pageNum != null and pageSize != null">
+			LIMIT ${pageNum},#{pageSize}
+		</if>
+	</select>
+
+	<select id="countRoleNumByKeyWord" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM t_role
+		<if test="keyWord != null">
+			WHERE name LIKE concat('%',#{keyWord},'%')
+		</if>
+
+	</select>
+	<select id="selectTenRole" resultType="me.jar.scw.manager.model.TRole">
+		SELECT * FROM t_role LIMIT 0,10
+	</select>
 </mapper>
 
 

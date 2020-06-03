@@ -87,13 +87,32 @@ public class UserRoleServiceImpl implements IUserRoleService {
 
     @Override
     public List<TRole> findUserRoleByKeyWord(Integer pageNum, Integer pageListSize, String search) {
-        // TODO
+        pageNum = (pageNum - 1) * pageListSize;
+        try {
+            return userRoleMapper.selectRoleByKeyWord(pageNum, pageListSize, search);
+        } catch (DataAccessException e) {
+            System.out.println("fail to find role by key word");
+        }
         return null;
     }
 
     @Override
     public Integer getRoleAmount(String search) {
-        // TODO
+        try {
+            return userRoleMapper.countRoleNumByKeyWord(search);
+        } catch (DataAccessException e) {
+            System.out.println("get role amount fail");
+        }
+        return null;
+    }
+
+    @Override
+    public List<TRole> findTenRoles() {
+        try {
+            return userRoleMapper.selectTenRole();
+        } catch (DataAccessException e) {
+            System.out.println("get ten role fail");
+        }
         return null;
     }
 }

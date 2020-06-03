@@ -132,6 +132,11 @@ public class RoleController {
         if (!StringUtils.isEmpty(search)) {
             modelMap.addAttribute("showSearch", search);
         }
+        // 做pageNum和pageListSize的校验，非空，非负数 TODO
+        if (pageNum == null || pageListSize == null || pageNum < 0 || pageListSize < 0) {
+            modelMap.addAttribute("pageVO", null);
+            return "role";
+        }
         Integer roleAmount = userRoleService.getRoleAmount(search);
         if (roleAmount == null || roleAmount == 0) {
             modelMap.addAttribute("pageVO", null);

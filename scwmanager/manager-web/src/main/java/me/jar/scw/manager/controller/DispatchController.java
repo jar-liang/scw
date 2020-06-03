@@ -123,12 +123,13 @@ public class DispatchController {
         }
         // 将菜单和登录用户名放进ModelMap中
         setModelMap(session, modelMap, useName);
-        // 将查出的角色数据放进ModelMap中
-        List<TRole> allRoles = userRoleService.findAllRoles();
-        if (CollectionUtils.isEmpty(allRoles)) {
+        // 将查出的角色数据放进ModelMap中，查出前10个
+        List<TRole> allRoles = userRoleService.findTenRoles();
+        Integer roleAmount = userRoleService.getRoleAmount("");
+        if (CollectionUtils.isEmpty(allRoles) || roleAmount == null) {
             modelMap.addAttribute("pageVO", null);
         } else {
-            PageVO<TRole> pageVO = new PageVO<>(1, 10, allRoles.size());
+            PageVO<TRole> pageVO = new PageVO<>(1, 10, roleAmount);
             pageVO.setList(allRoles);
             modelMap.addAttribute("pageVO", pageVO);
         }

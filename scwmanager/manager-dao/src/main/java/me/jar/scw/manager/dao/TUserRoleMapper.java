@@ -18,4 +18,10 @@ public interface TUserRoleMapper {
 
     Integer deleteRoleIdUserId(@Param("userId") Integer userId, @Param("roleIdList") List<Integer> roleIdList);
 
+    List<TRole> selectRoleByKeyWord(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize,
+                                    @Param("keyWord") String keyWord);
+
+    Integer countRoleNumByKeyWord(@Param("keyWord") String keyWord);
+
+    List<TRole> selectTenRole();
 }

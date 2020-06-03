@@ -43,7 +43,7 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="key_word">
     </div>
   </div>
   <button type="button" class="btn btn-warning" id="search_btn"><i class="glyphicon glyphicon-search"></i> 查询</button>
@@ -184,6 +184,17 @@
             
             $("tbody .btn-success").click(function(){
                 window.location.href = "assignPermission.html";
+            });
+
+            $("#search_btn").click(function () {
+                var keyWord = $("#key_word").val();
+                if (keyWord == null || keyWord.trim() == '') {
+                    alert("请输入有效关键字");
+                    return;
+                }
+                var search = "search=" + keyWord;
+                var num = "num=" + $("span[style='color : red']").text();
+                window.location.href = "rolelist.do?" + num + "&" + search;
             });
         </script>
   </body>

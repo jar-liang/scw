@@ -61,4 +61,10 @@ public interface IUserRoleService {
      * @return
      */
     Integer getRoleAmount(String search);
+
+    /**
+     *  查找10个角色
+     * @return
+     */
+    List<TRole> findTenRoles();
 }
