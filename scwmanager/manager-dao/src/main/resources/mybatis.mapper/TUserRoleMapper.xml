@@ -21,7 +21,7 @@
 		</foreach>
 	</insert>
 
-	<delete id="deleteRoleIdUserId">
+    <delete id="deleteRoleIdUserId">
 		DELETE FROM t_user_role WHERE userid=#{userId} AND roleid IN
 			<foreach collection="roleIdList" open="(" close=")" separator="," item="roleId">
 				#{roleId}
@@ -48,6 +48,16 @@
 	<select id="selectTenRole" resultType="me.jar.scw.manager.model.TRole">
 		SELECT * FROM t_role LIMIT 0,10
 	</select>
+
+    <select id="checkRoleExist" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_role WHERE name=#{roleName}
+    </select>
+
+    <insert id="insertNewRoleByName">
+        INSERT INTO t_role(id,name) VALUES(
+            (SELECT MAX(t.id) FROM t_role t)+1,#{roleName}
+        )
+    </insert>
 </mapper>
 
 

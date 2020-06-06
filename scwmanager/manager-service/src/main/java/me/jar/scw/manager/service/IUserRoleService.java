@@ -67,4 +67,18 @@ public interface IUserRoleService {
      * @return
      */
     List<TRole> findTenRoles();
+
+    /**
+     *  查找角色名是否已存在
+     * @param roleName
+     * @return
+     */
+    boolean checkRoleNameExist(String roleName);
+
+    /**
+     *  根据角色名称添加新角色
+     * @param roleName
+     * @return
+     */
+    boolean addNewRoleByName(String roleName);
 }

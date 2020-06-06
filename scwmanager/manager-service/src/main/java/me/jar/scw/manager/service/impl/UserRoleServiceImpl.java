@@ -115,4 +115,30 @@ public class UserRoleServiceImpl implements IUserRoleService {
         }
         return null;
     }
+
+    @Override
+    public boolean checkRoleNameExist(String roleName) {
+        try {
+            Integer row = userRoleMapper.checkRoleExist(roleName);
+            if (row == null || row < 1) {
+                return false;
+            }
+        } catch (DataAccessException e) {
+            System.out.println("check role exist error");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addNewRoleByName(String roleName) {
+        try {
+            Integer row = userRoleMapper.insertNewRoleByName(roleName);
+            if (row != null && row == 1) {
+                return true;
+            }
+        } catch (DataAccessException e) {
+            System.out.println("add role exist error");
+        }
+        return false;
+    }
 }

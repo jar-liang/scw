@@ -86,4 +86,23 @@ public class UserRoleServiceImplTest {
         tenRoles.forEach(role -> System.out.println(role.getName()));
     }
 
+    @Test
+    public void testCheckRoleNameExist() {
+        if (userRoleService.checkRoleNameExist("管理员")) {
+            System.out.println("role name exist");
+        } else {
+            System.out.println("role name not exist");
+        }
+    }
+
+    @Test
+    public void testAddNewRoleByName() {
+        String roleName = "hahaha111";
+        if (userRoleService.addNewRoleByName(roleName)) {
+            System.out.println("add new role success");
+        } else {
+            System.out.println("add new role fail");
+        }
+    }
+
 }

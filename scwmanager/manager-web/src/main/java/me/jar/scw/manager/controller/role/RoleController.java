@@ -151,5 +151,21 @@ public class RoleController {
         return "role";
     }
 
-
+    @RequestMapping("addRoleName.do")
+    @ResponseBody
+    public String addRoleName(String roleName) {
+        JSONObject result = new JSONObject();
+        // 取到角色名，先判断是否已存在，存在则返回提示，提示status为duplicate
+        if (userRoleService.checkRoleNameExist(roleName)) {
+            result.put(STATUS, "duplicate");
+            return result.toJSONString();
+        }
+        // 角色名对应id，查到的最大的id的基础上+1
+        if (userRoleService.addNewRoleByName(roleName)) {
+            result.put(STATUS, SUCCESS);
+        } else {
+            result.put(STATUS, FAIL);
+        }
+        return result.toJSONString();
+    }
 }

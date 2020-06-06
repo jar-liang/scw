@@ -71,4 +71,26 @@ public class TUserRoleMapperTest {
         List<TRole> roleList = userRoleMapper.selectTenRole();
         roleList.forEach(role -> System.out.println(role.getName()));
     }
+
+    @Test
+    public void testCheckRoleExist() {
+        String roleName = "管理员1";
+        Integer row = userRoleMapper.checkRoleExist(roleName);
+        if (row > 0) {
+            System.out.println("exist");
+        } else {
+            System.out.println("not exist");
+        }
+    }
+
+    @Test
+    public void testInsertNewRoleByName() {
+        String roleName = "测试员1";
+        Integer row = userRoleMapper.insertNewRoleByName(roleName);
+        if (row == 1) {
+            System.out.println("insert success");
+        } else {
+            System.out.println("insert fail");
+        }
+    }
 }

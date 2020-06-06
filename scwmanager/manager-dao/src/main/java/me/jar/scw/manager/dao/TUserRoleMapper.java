@@ -24,4 +24,8 @@ public interface TUserRoleMapper {
     Integer countRoleNumByKeyWord(@Param("keyWord") String keyWord);
 
     List<TRole> selectTenRole();
+
+    Integer checkRoleExist(@Param("roleName") String roleName);
+
+    Integer insertNewRoleByName(@Param("roleName") String roleName);
 }

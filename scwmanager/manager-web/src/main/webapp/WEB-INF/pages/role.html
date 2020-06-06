@@ -49,7 +49,7 @@
   <button type="button" class="btn btn-warning" id="search_btn"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-primary" style="float:right;" id="add_role_btn"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
@@ -163,6 +163,38 @@
         </div>
       </div>
     </div>
+  <!-- 模态框 -->
+  <div class="modal" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">新增角色</h4>
+              </div>
+              <div class="modal-body">
+                  <form class="form-horizontal">
+                      <div class="form-group">
+                          <label for="inputRole" class="col-sm-2 control-label">角色名称</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" id="inputRole" placeholder="请输入角色名称">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-sm-offset-2 col-sm-4">
+                              <button type="button" class="btn btn-primary" id="addNewRoleBtn">新增</button>
+                          </div>
+                          <div class="col-sm-5 label label-success" id="operateInfo" style="display: none">
+                              添加成功
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
         <script type="text/javascript">
             $(function () {
@@ -196,6 +228,65 @@
                 var num = "num=" + $("span[style='color : red']").text();
                 window.location.href = "rolelist.do?" + num + "&" + search;
             });
+
+            $("#add_role_btn").click(function () {
+                $("#inputRole").val("");
+                $("#operateInfo").hide();
+                var option = {
+                    backdrop:"static",
+                    show: true
+                }
+                $("#addRoleModal").modal(option);
+            });
+
+            $("#inputRole").focus(function () {
+                $("#operateInfo").hide();
+            })
+
+            $("#addNewRoleBtn").click(function () {
+                var roleName = $("#inputRole").val().trim();
+                if (roleName == '' || roleName.length >10) {
+                    $("#operateInfo").removeClass("label-success").addClass("label-danger")
+                        .text("请输入有效角色名（少于等于10个字符）")
+                        .show();
+                    return;
+                }
+                $.ajax({
+                    url: "/scw/role/addRoleName.do",
+                    data: "roleName=" + roleName,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if ("success" == data.status) {
+                            dealWithSuccess(roleName);
+                        } else if ("duplicate" == data.status) {
+                            dealWithDuplicat(roleName);
+                        } else {
+                            dealWithFail(roleName);
+                        }
+                    }
+                });
+            });
+
+            function dealWithSuccess(roleName) {
+                $("#inputRole").val('');
+                $("#operateInfo").removeClass().addClass("col-sm-5 label label-success")
+                    .text("角色【" + roleName + "】添加成功")
+                    .show();
+            }
+
+            function dealWithFail(roleName) {
+                $("#operateInfo").removeClass().addClass("col-sm-5 label label-danger")
+                    .text("角色【" + roleName + "】添加失败")
+                    .show();
+            }
+
+            function dealWithDuplicat(roleName) {
+                $("#inputRole").val('');
+                $("#operateInfo").removeClass().addClass("col-sm-5 label label-warning")
+                    .text("角色【" + roleName + "】已存在，请重新输入")
+                    .show();
+            }
         </script>
   </body>
 </html>
