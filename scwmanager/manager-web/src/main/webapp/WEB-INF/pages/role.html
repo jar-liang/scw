@@ -11,9 +11,11 @@
 	  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
 	  <link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
 	  <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+      <link rel="stylesheet" href="/css/zTreeStyle.css" th:href="@{/ztree/zTreeStyle.css}">
 	  <script src="jquery/jquery-2.1.1.min.js" th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
 	  <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 	  <script src="script/docs.min.js" th:src="@{/script/docs.min.js}"></script>
+      <script src="script/jquery.ztree.all-3.5.min.js" th:src="@{/ztree/jquery.ztree.all-3.5.min.js}"></script>
 	<style>
 	.tree li {
         list-style-type: none;
@@ -68,7 +70,7 @@
 				  <td><input type="checkbox"></td>
                   <td th:text="${role.getName()}">PM - 项目经理</td>
                   <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+				      <button type="button" class="btn btn-success btn-xs addPermission"><i class=" glyphicon glyphicon-check"></i></button>
 				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
 					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
 				  </td>
@@ -163,7 +165,7 @@
         </div>
       </div>
     </div>
-  <!-- 模态框 -->
+  <!-- 添加角色模态框 -->
   <div class="modal" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -196,6 +198,27 @@
       </div>
   </div>
 
+  <!-- 添加权限数模态框 -->
+  <div class="modal" id="addRolePermissionModal" tabindex="-1" role="dialog" aria-labelledby="addRolePermissionModalLable">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="addRolePermissionModalLable">角色权限配置</h4>
+              </div>
+              <div class="modal-body">
+                <!--        展示权限树          -->
+                  <div>
+                      <ul id="permissonTree" class="ztree"></ul>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -214,10 +237,6 @@
             $("a[href='/scw/role/rolemanager.do']").css("color", "red");
             $("a[href='/scw/role/rolemanager.do']").parents(".list-group-item").removeClass("tree-closed").children("ul").show(10);
             
-            $("tbody .btn-success").click(function(){
-                window.location.href = "assignPermission.html";
-            });
-
             $("#search_btn").click(function () {
                 var keyWord = $("#key_word").val();
                 if (keyWord == null || keyWord.trim() == '') {
@@ -286,6 +305,61 @@
                 $("#operateInfo").removeClass().addClass("col-sm-5 label label-warning")
                     .text("角色【" + roleName + "】已存在，请重新输入")
                     .show();
+            }
+
+            $(".addPermission").each(function () {
+                $(this).click(function () {
+                    // var id = $(this).parent().parent().children().first().html(); // 角色id
+                    // 刷出权限树
+                    initPermissionTree();
+                    var option = {
+                        backdrop:"static",
+                        show: true
+                    }
+                    $("#addRolePermissionModal").modal(option);
+                });
+            })
+
+            function initPermissionTree() {
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "pid"
+                        }
+                    },
+                    view: {
+                        addDiyDom: addIconClass
+                    },
+                    check: {
+                        enable: true
+                    }
+                };
+                // zNode 权限信息从数据库查出
+                var zNodes;
+                $.ajax({
+                    url: "/scw/permission/permissiontree.do",
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == '') {
+                            zNodes = [];
+                        } else {
+                            zNodes = data;
+                            $.each(zNodes,function () {
+                                if(this.pid == 0) {
+                                    this.open = true;
+                                }
+                            })
+                        }
+                        $.fn.zTree.init($("#permissonTree"), setting, zNodes);
+                    }
+                });
+            }
+
+            function addIconClass(treeId, treeNode) {
+                $("#" + treeNode.tId + "_ico").removeClass().addClass(treeNode.icon);
             }
         </script>
   </body>

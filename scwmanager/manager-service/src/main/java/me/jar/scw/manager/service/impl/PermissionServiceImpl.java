@@ -5,6 +5,7 @@ import me.jar.scw.manager.model.TPermission;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,6 +51,16 @@ public class PermissionServiceImpl implements IPermissionService {
             }
         }
         return permissionVOs;
+    }
+
+    @Override
+    public List<TPermission> findPermission() {
+        try {
+            return permissionMapper.selectAllMenu();
+        } catch (DataAccessException e) {
+            System.out.println("find permission fail");
+        }
+        return null;
     }
 
 }

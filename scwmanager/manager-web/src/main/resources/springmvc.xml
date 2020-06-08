@@ -35,5 +35,30 @@
         <property name="characterEncoding" value="UTF-8"/>
     </bean>
 
+    <!-- 注解的适配器和映射器 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!--@ResponseBody 中文响应乱码 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>
+                            text/plain;charset=UTF-8
+                        </value>
+                        <value>
+                            text/html;charset=UTF-8
+                        </value>
+
+                        <value>
+                            application/json;charset=UTF-8
+                        </value>
+                        <value>
+                            application/x-www-form-urlencoded;charset=UTF-8
+                        </value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
 </beans>

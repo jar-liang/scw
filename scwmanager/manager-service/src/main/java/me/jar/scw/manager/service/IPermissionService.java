@@ -1,5 +1,6 @@
 package me.jar.scw.manager.service;
 
+import me.jar.scw.manager.model.TPermission;
 import me.jar.scw.manager.model.vo.PermissionVO;
 
 import java.util.List;
@@ -15,4 +16,10 @@ public interface IPermissionService {
      * @return
      */
     List<PermissionVO> findAllMemu();
+
+    /**
+     *  找出所有菜单
+     * @return
+     */
+    List<TPermission> findPermission();
 }
