@@ -309,9 +309,9 @@
 
             $(".addPermission").each(function () {
                 $(this).click(function () {
-                    // var id = $(this).parent().parent().children().first().html(); // 角色id
+                    var id = $(this).parent().parent().children().first().html(); // 角色id
                     // 刷出权限树
-                    initPermissionTree();
+                    initPermissionTree(id);
                     var option = {
                         backdrop:"static",
                         show: true
@@ -320,13 +320,21 @@
                 });
             })
 
-            function initPermissionTree() {
+            // 全局常量，权限路径
+            var baseUrl = "/scw/permission/";
+            // 权限数对象
+            var ztreeObject;
+
+            function initPermissionTree(id) {
                 var setting = {
                     data: {
                         simpleData: {
                             enable: true,
                             idKey: "id",
                             pIdKey: "pid"
+                        },
+                        key: {
+                            url: "noUrl"
                         }
                     },
                     view: {
@@ -339,7 +347,7 @@
                 // zNode 权限信息从数据库查出
                 var zNodes;
                 $.ajax({
-                    url: "/scw/permission/permissiontree.do",
+                    url: baseUrl + "permissiontree.do",
                     type: "post",
                     dataType: "json",
                     success: function (data) {
@@ -353,13 +361,34 @@
                                 }
                             })
                         }
-                        $.fn.zTree.init($("#permissonTree"), setting, zNodes);
+                        ztreeObject = $.fn.zTree.init($("#permissonTree"), setting, zNodes);
+                        // 将角色已拥有的权限节点勾上
+                        checkNode(id);
                     }
                 });
             }
 
             function addIconClass(treeId, treeNode) {
                 $("#" + treeNode.tId + "_ico").removeClass().addClass(treeNode.icon);
+            }
+
+            function checkNode(id) {
+                $.ajax({
+                    url: baseUrl + "permissionid.do",
+                    type: "post",
+                    data: "id=" + id,
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function () {
+                            var node = ztreeObject.getNodeByParam("id", this, null);
+                            if (!node.isParent) {
+                                var parentNode = node.getParentNode();
+                                ztreeObject.checkNode(parentNode, true, false);
+                            }
+                            ztreeObject.checkNode(node, true, false);
+                        })
+                    }
+                });
             }
         </script>
   </body>

@@ -22,4 +22,11 @@ public interface IPermissionService {
      * @return
      */
     List<TPermission> findPermission();
+
+    /**
+     *  根据角色id查询出对应权限id
+     * @param roleId
+     * @return
+     */
+    List<Integer> findPermissionIdByRoleId(String roleId);
 }

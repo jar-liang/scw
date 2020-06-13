@@ -9,6 +9,9 @@
 		SELECT * FROM t_permission
 	</select>
 
+    <select id="selectPermissionIdByRoleId" resultType="java.lang.Integer">
+        SELECT permissionid AS pid FROM t_role_permission WHERE roleid=#{roleId}
+    </select>
 	
 </mapper>
 

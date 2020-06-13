@@ -15,4 +15,11 @@ public interface TPermissionMapper {
      * @return
      */
     List<TPermission> selectAllMenu();
+
+    /**
+     *  根据角色id查询对应的权限id
+     * @param roleId
+     * @return
+     */
+    List<Integer> selectPermissionIdByRoleId(String roleId);
 }

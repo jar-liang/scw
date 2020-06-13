@@ -63,4 +63,14 @@ public class PermissionServiceImpl implements IPermissionService {
         return null;
     }
 
+    @Override
+    public List<Integer> findPermissionIdByRoleId(String roleId) {
+        try {
+            return permissionMapper.selectPermissionIdByRoleId(roleId);
+        } catch (DataAccessException e) {
+            System.out.println("fail to find permission id by role id");
+        }
+        return null;
+    }
+
 }

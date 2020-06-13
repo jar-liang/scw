@@ -27,4 +27,11 @@ public class PermissionTest {
             System.out.println("第" + permission.getId() + "个菜单：" + permission.getName());
         }
     }
+
+    @Test
+    public void testSelectPermissionIdByRoleId() {
+        String roleId = "7";
+        List<Integer> list = mapper.selectPermissionIdByRoleId(roleId);
+        list.forEach(pid -> System.out.println("pid: " + pid));
+    }
 }

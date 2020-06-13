@@ -34,4 +34,10 @@ public class PermissionTest {
         List<TPermission> permission = permissionService.findPermission();
         System.out.println(JSON.toJSONString(permission));
     }
+
+    @Test
+    public void testFindPermissionIdByRoleId() {
+        List<Integer> pid = permissionService.findPermissionIdByRoleId("");
+        pid.forEach(id -> System.out.println("pid: " + id));
+    }
 }
