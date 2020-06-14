@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:mvc="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 仅扫描Service注解，以使注解事务生效 -->
+    <context:component-scan base-package="me.jar.scw">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
 
     <!-- 读取数据库连接配置文件 -->
-    <util:properties id="dbConfig" location="classpath:db.properties" />
+    <util:properties id="dbConfig" location="classpath:db.properties"/>
 
     <!--  配置数据源  -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="#{dbConfig.driver}" />
-        <property name="url" value="#{dbConfig.url}" />
-        <property name="username" value="#{dbConfig.username}" />
-        <property name="password" value="#{dbConfig.password}" />
-        <property name="initialSize" value="#{dbConfig.initialSize}" />
-        <property name="maxActive" value="#{dbConfig.maxActive}" />
+        <property name="driverClassName" value="#{dbConfig.driver}"/>
+        <property name="url" value="#{dbConfig.url}"/>
+        <property name="username" value="#{dbConfig.username}"/>
+        <property name="password" value="#{dbConfig.password}"/>
+        <property name="initialSize" value="#{dbConfig.initialSize}"/>
+        <property name="maxActive" value="#{dbConfig.maxActive}"/>
     </bean>
 
     <!--  配置接口文件在哪里  -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="me.jar.scw.manager.dao" />
+        <property name="basePackage" value="me.jar.scw.manager.dao"/>
     </bean>
 
     <!--  配置SQL XML映射文件在哪里，以及数据源  -->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="mapperLocations" value="classpath:mybatis.mapper/*.xml" />
-        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:mybatis.mapper/*.xml"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 使用annotation定义事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

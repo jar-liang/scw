@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,4 +41,13 @@ public class PermissionTest {
         List<Integer> pid = permissionService.findPermissionIdByRoleId("");
         pid.forEach(id -> System.out.println("pid: " + id));
     }
+
+    @Test
+    public void testUpdateRolePermission() {
+        String roleId = "3";
+        List<String> pIds = Arrays.asList("2", "3", "4");
+        boolean flag = permissionService.updateRolePermission(roleId, pIds);
+        System.out.println(flag);
+    }
+
 }

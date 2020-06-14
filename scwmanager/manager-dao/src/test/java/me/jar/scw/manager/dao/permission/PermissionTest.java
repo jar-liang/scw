@@ -7,7 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:springmvc4test.xml", "classpath:mybatisconfig.xml"})
+
 public class PermissionTest {
     @Autowired
     TPermissionMapper mapper;
@@ -33,5 +36,21 @@ public class PermissionTest {
         String roleId = "7";
         List<Integer> list = mapper.selectPermissionIdByRoleId(roleId);
         list.forEach(pid -> System.out.println("pid: " + pid));
+    }
+
+    @Test
+    public void testInsertPermissionWithRole() {
+        String roleId = "3";
+        List<String> pIds = Arrays.asList("2", "3", "4");
+        Integer row = mapper.insertPermissionWithRole(roleId, pIds);
+        System.out.println(row);
+    }
+
+    @Test
+    @Transactional
+    public void testDeletePermissionIdByRoleId() {
+        String roleId = "3";
+        Integer row = mapper.deletePermissionIdByRoleId(roleId);
+        System.out.println(row);
     }
 }

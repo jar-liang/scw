@@ -6,7 +6,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="me.jar.scw" />
+    <!--  添加例外，@service注解，在mybatis那边再扫描，以便在Service层的事务生效  -->
+    <context:component-scan base-package="me.jar.scw">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
 
     <mvc:annotation-driven/>
 

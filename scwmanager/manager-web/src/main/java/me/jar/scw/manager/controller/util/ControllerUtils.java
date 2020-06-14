@@ -14,6 +14,7 @@ public final class ControllerUtils {
     }
 
     public static final int PARAM_LENGTH_MAX_16 = 16;
+    public static final int PARAM_LENGTH_MAX_256 = 256;
 
     /**
      *  对传入的id进行校验，长度不大于16，大于16的截断，再使用正则校验，全部都要是数字
@@ -32,5 +33,20 @@ public final class ControllerUtils {
             return idParam;
         }
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * 对字符串进行长度校验，如果长度不超过给出的最大的长度，返回该字符串，如果
+     * 超过，则按限制长度进行截取
+     * @param inputString
+     * @param maxStringLength
+     * @return
+     */
+    public static String checkString(String inputString, int maxStringLength) {
+        if (StringUtils.isEmpty(inputString)) {
+            return StringUtils.EMPTY;
+        }
+        return inputString.length() > maxStringLength ? inputString.substring(0, maxStringLength) : inputString;
+
     }
 }

@@ -29,4 +29,12 @@ public interface IPermissionService {
      * @return
      */
     List<Integer> findPermissionIdByRoleId(String roleId);
+
+    /**
+     *  更新角色对应的权限
+     * @param roleId
+     * @param permissionIds
+     * @return
+     */
+    boolean updateRolePermission(String roleId, List<String> permissionIds);
 }

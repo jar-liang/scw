@@ -214,12 +214,43 @@
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button type="button" class="btn btn-primary" id="addPermissionBtn">添加权限</button>
               </div>
           </div>
       </div>
   </div>
 
         <script type="text/javascript">
+            // 全局常量，权限路径
+            var baseUrl = "/scw/permission/";
+            // 权限数对象
+            var ztreeObject;
+
+            $("#addPermissionBtn").click(function () {
+                var roleId = $(this).attr("roleId");
+                var node = ztreeObject.getCheckedNodes(true);
+                var pId = "";
+                $.each(node, function () {
+                    pId += this.id + ",";
+                })
+                $.ajax({
+                    url: baseUrl + "updatepermission.do",
+                    data: "roleId=" + roleId + "&permissionId=" + pId,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            $("#addRolePermissionModal").modal("hide");
+                        } else {
+                            alert("更新权限失败！");
+                        }
+                    }
+                });
+            });
+
+
+
+
             $(function () {
 			    $(".list-group-item").click(function(){
 				    if ( $(this).find("ul") ) {
@@ -317,13 +348,12 @@
                         show: true
                     }
                     $("#addRolePermissionModal").modal(option);
+                    // 传值，将角色id绑定到新增权限按钮上
+                    $("#addPermissionBtn").attr("roleId", id);
                 });
             })
 
-            // 全局常量，权限路径
-            var baseUrl = "/scw/permission/";
-            // 权限数对象
-            var ztreeObject;
+
 
             function initPermissionTree(id) {
                 var setting = {
@@ -364,6 +394,7 @@
                         ztreeObject = $.fn.zTree.init($("#permissonTree"), setting, zNodes);
                         // 将角色已拥有的权限节点勾上
                         checkNode(id);
+
                     }
                 });
             }

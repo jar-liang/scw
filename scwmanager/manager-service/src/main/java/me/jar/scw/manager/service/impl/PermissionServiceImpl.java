@@ -7,6 +7,7 @@ import me.jar.scw.manager.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,14 @@ public class PermissionServiceImpl implements IPermissionService {
             System.out.println("fail to find permission id by role id");
         }
         return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor=DataAccessException.class) // 添加rollbackFor，可以选择哪些异常会回滚
+    public boolean updateRolePermission(String roleId, List<String> permissionIds) {
+        permissionMapper.deletePermissionIdByRoleId(roleId);
+        permissionMapper.insertPermissionWithRole(roleId, permissionIds);
+        return true;
     }
 
 }

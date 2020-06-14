@@ -5,14 +5,24 @@
 <!-- namespace：对应哪个接口 -->
 <mapper namespace="me.jar.scw.manager.dao.TPermissionMapper">
 
-	<select id="selectAllMenu" resultType="me.jar.scw.manager.model.TPermission">
+    <select id="selectAllMenu" resultType="me.jar.scw.manager.model.TPermission">
 		SELECT * FROM t_permission
 	</select>
 
     <select id="selectPermissionIdByRoleId" resultType="java.lang.Integer">
         SELECT permissionid AS pid FROM t_role_permission WHERE roleid=#{roleId}
     </select>
-	
+
+    <delete id="deletePermissionIdByRoleId">
+        DELETE FROM t_role_permission WHERE roleid=#{roleId}
+    </delete>
+
+    <insert id="insertPermissionWithRole">
+        INSERT INTO t_role_permission(roleid,permissionid) VALUES
+        <foreach collection="pIds" item="pId" separator=",">
+            (#{roleId},#{pId})
+        </foreach>
+    </insert>
 </mapper>
 
 
