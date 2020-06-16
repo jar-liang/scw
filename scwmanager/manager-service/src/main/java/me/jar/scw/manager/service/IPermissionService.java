@@ -37,4 +37,18 @@ public interface IPermissionService {
      * @return
      */
     boolean updateRolePermission(String roleId, List<String> permissionIds);
+
+    /**
+     *  根据角色id删除角色
+     * @param roleIdList
+     * @return 返回1，删除成功，返回2，由于外键约束，无法删除成功，返回3，其它原因删除失败
+     */
+    Integer deleteRoleById(List<String> roleIdList);
+
+    /**
+     *  根据角色id删除它 所有权限
+     * @param roleId
+     * @return
+     */
+    Integer deleteAllPermission(String roleId);
 }

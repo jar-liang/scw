@@ -28,7 +28,7 @@
 			</foreach>
 	</delete>
 
-	<select id="selectRoleByKeyWord" resultType="me.jar.scw.manager.model.TRole">
+    <select id="selectRoleByKeyWord" resultType="me.jar.scw.manager.model.TRole">
 		SELECT * FROM t_role
 		<if test="keyWord != null">
 			WHERE name LIKE concat('%',#{keyWord},'%')
@@ -58,6 +58,15 @@
             (SELECT MAX(t.id) FROM t_role t)+1,#{roleName}
         )
     </insert>
+
+	<delete id="deleteRoleById">
+		DELETE FROM t_role WHERE id IN
+			<if test="roleIdList != null">
+				<foreach collection="roleIdList" item="roleId" separator="," open="(" close=")">
+					#{roleId}
+				</foreach>
+			</if>
+	</delete>
 </mapper>
 
 

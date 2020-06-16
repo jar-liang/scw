@@ -1,11 +1,13 @@
 package me.jar.scw.manager.service.impl;
 
 import me.jar.scw.manager.dao.TPermissionMapper;
+import me.jar.scw.manager.dao.TUserRoleMapper;
 import me.jar.scw.manager.model.TPermission;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,14 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Autowired
     TPermissionMapper permissionMapper;
+
+    @Autowired
+    private TUserRoleMapper userRoleMapper;
+
+    // 删除角色结果，1代表成功，2代表由于外键约束删除失败，3代表其它sql错误删除失败
+    private final Integer DELETE_SUCCESS = 1;
+    private final Integer DELETE_FAIL_RESTRAIN = 2;
+    private final Integer DELETE_FAIL_OTHER = 3;
 
     /**
      *  找到所有菜单并分好子父级
@@ -80,6 +90,34 @@ public class PermissionServiceImpl implements IPermissionService {
         permissionMapper.deletePermissionIdByRoleId(roleId);
         permissionMapper.insertPermissionWithRole(roleId, permissionIds);
         return true;
+    }
+
+    @Override
+    public Integer deleteRoleById(List<String> roleIdList) {
+        // 3：代表其它
+        Integer result = DELETE_FAIL_OTHER;
+        try {
+            Integer row = userRoleMapper.deleteRoleById(roleIdList);
+            if (row != null) {
+                result = DELETE_SUCCESS;
+            }
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("delete fail due to foreign key restrain");
+            result = DELETE_FAIL_RESTRAIN;
+        } catch (DataAccessException e) {
+            System.out.println("other reason, delete fail");
+        }
+        return result;
+    }
+
+    @Override
+    public Integer deleteAllPermission(String roleId) {
+        try {
+            return permissionMapper.deletePermissionIdByRoleId(roleId);
+        } catch (DataAccessException e) {
+            System.out.println("delete permission fail");
+        }
+        return null;
     }
 
 }

@@ -86,7 +86,7 @@ public class RoleController {
         return null;
     }
 
-    @RequestMapping("delrole.do")
+    @RequestMapping("deluserrole.do")
     @ResponseBody
     public String deleteRole(String ids, String userId) {
         JSONObject result = new JSONObject();

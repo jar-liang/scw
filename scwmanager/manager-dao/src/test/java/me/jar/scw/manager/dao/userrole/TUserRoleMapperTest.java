@@ -93,4 +93,11 @@ public class TUserRoleMapperTest {
             System.out.println("insert fail");
         }
     }
+
+    @Test
+    public void testDeleteRoleById() {
+        List<String> roleIds = Arrays.asList("12");
+        Integer row = userRoleMapper.deleteRoleById(roleIds);
+        System.out.println(row);
+    }
 }

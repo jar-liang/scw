@@ -28,4 +28,6 @@ public interface TUserRoleMapper {
     Integer checkRoleExist(@Param("roleName") String roleName);
 
     Integer insertNewRoleByName(@Param("roleName") String roleName);
+
+    Integer deleteRoleById(@Param("roleIdList") List<String> roleIdList);
 }

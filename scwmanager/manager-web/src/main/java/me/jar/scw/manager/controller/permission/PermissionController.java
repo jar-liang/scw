@@ -29,6 +29,10 @@ public class PermissionController {
     @Autowired
     private IPermissionService permissionService;
 
+    // 删除角色结果，1代表成功，2代表由于外键约束删除失败
+    private final Integer DELETE_SUCCESS = 1;
+    private final Integer DELETE_FAIL_RESTRAIN = 2;
+
     /**
      *  获取权限树
      * @return
@@ -67,7 +71,7 @@ public class PermissionController {
     @ResponseBody
     public String updatePermission(String roleId, String permissionId) {
         String roleIdParam = ControllerUtils.checkId(roleId);
-        List<String> pIdList = checkPermissionId(permissionId);
+        List<String> pIdList = checkMultiId(permissionId);
         JSONObject result = new JSONObject();
         boolean flag = false;
         try {
@@ -80,26 +84,66 @@ public class PermissionController {
         } else {
             result.put(Constants.STATUS, Constants.FAIL);
         }
-        return JSON.toJSONString(result);
+        return result.toJSONString();
+    }
+
+    /**
+     *  删除该角色的所有权限
+     * @param roleId
+     * @return
+     */
+    @RequestMapping("deleteallpermission.do")
+    @ResponseBody
+    public String deleteAllPermission(String roleId) {
+        String roleIdParam = ControllerUtils.checkId(roleId);
+        JSONObject result = new JSONObject();
+        Integer row = permissionService.deleteAllPermission(roleIdParam);
+        if (row != null) {
+            result.put(Constants.STATUS, Constants.SUCCESS);
+        } else {
+            result.put(Constants.STATUS, Constants.FAIL);
+        }
+        return result.toJSONString();
+    }
+
+    /**
+     *  删除角色，批量与单个都可以删除
+     * @param roleId
+     * @return
+     */
+    @RequestMapping("delrole.do")
+    @ResponseBody
+    public String deleteRole(String roleId) {
+        List<String> roleIdParam = checkMultiId(roleId);
+        JSONObject result = new JSONObject();
+        Integer deleteResult = permissionService.deleteRoleById(roleIdParam);
+        if (DELETE_SUCCESS.equals(deleteResult)) {
+            result.put(Constants.STATUS, Constants.SUCCESS);
+        } else if (DELETE_FAIL_RESTRAIN.equals(deleteResult)) {
+            result.put(Constants.STATUS, "restrain");
+        } else {
+            result.put(Constants.STATUS, Constants.FAIL);
+        }
+        return result.toJSONString();
     }
 
     /**
      *  对permissionId做校验
-     * @param permissionId
+     * @param multiId
      * @return
      */
-    private List<String> checkPermissionId(String permissionId) {
-        List<String> permissionIdList = new ArrayList<>();
-        String checkPid = ControllerUtils.checkString(permissionId, ControllerUtils.PARAM_LENGTH_MAX_256);
+    private List<String> checkMultiId(String multiId) {
+        List<String> multiIdList = new ArrayList<>();
+        String checkPid = ControllerUtils.checkString(multiId, ControllerUtils.PARAM_LENGTH_MAX_256);
         String[] pIds = checkPid.split(",");
         if (pIds != null && pIds.length >= 1) {
             for (String pid : pIds) {
                 if (!StringUtils.EMPTY.equals(pid) && !StringUtils.EMPTY.equals(ControllerUtils.checkId(pid))) {
-                    permissionIdList.add(pid);
+                    multiIdList.add(pid);
                 }
             }
         }
-        return permissionIdList;
+        return multiIdList;
     }
 
 }

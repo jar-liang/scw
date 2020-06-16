@@ -50,4 +50,11 @@ public class PermissionTest {
         System.out.println(flag);
     }
 
+    @Test
+    public void testDeleteRoleById() {
+        List<String> roleIdList = Arrays.asList("11");
+        Integer result = permissionService.deleteRoleById(roleIdList);
+        System.out.println(result);
+    }
+
 }
