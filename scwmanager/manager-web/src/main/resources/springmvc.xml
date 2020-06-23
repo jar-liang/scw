@@ -13,6 +13,20 @@
 
     <mvc:annotation-driven/>
 
+    <!-- 配置拦截器链 -->
+    <mvc:interceptors>
+        <!-- 配置第1个拦截器 -->
+        <mvc:interceptor>
+            <!-- 拦截路径 -->
+            <mvc:mapping path="/**/*.do"/>
+            <!--      添加例外      -->
+            <mvc:exclude-mapping path="/**/reg.do"/>
+            <mvc:exclude-mapping path="/**/login.do"/>
+            <!-- 拦截器类 -->
+            <bean class="me.jar.scw.manager.controller.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 模板解析器 -->
     <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <!-- 模板文件的路径前缀 -->
