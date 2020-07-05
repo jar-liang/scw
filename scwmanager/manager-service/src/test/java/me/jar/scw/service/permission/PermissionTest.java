@@ -57,4 +57,11 @@ public class PermissionTest {
         System.out.println(result);
     }
 
+    @Test
+    public void testFindMenuByUserId() {
+        Integer userId = 53;
+        List<PermissionVO> menu = permissionService.findMenuByUserId(userId);
+        System.out.println(JSON.toJSONString(menu));
+    }
+
 }

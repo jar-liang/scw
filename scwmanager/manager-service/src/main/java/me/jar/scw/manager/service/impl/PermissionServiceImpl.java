@@ -5,6 +5,7 @@ import me.jar.scw.manager.dao.TUserRoleMapper;
 import me.jar.scw.manager.model.TPermission;
 import me.jar.scw.manager.model.vo.PermissionVO;
 import me.jar.scw.manager.service.IPermissionService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,30 +40,25 @@ public class PermissionServiceImpl implements IPermissionService {
      */
     @Override
     public List<PermissionVO> findAllMemu() {
-        // 先拿到所有菜单
-        List<TPermission> permissions = permissionMapper.selectAllMenu();
-        // 定义permissionVO的List
-        List<PermissionVO> permissionVOs = new ArrayList<>();
-        // 遍历permissions，将菜单放进permissionVOs中
-        // 两次循环，第一次拿到根菜单，第二次拿到各自的子菜单
-        for (TPermission permission : permissions) {
-            if (permission.getPid() == 0) {
-                // 存放子菜单的List
-                List<PermissionVO> subPermissionVOs = new ArrayList<>();
-                for (TPermission p : permissions) {
-                    if (p.getPid().equals(permission.getId())) {
-                        subPermissionVOs.add(new PermissionVO(p));
-                    }
-                }
-                // 父菜单
-                PermissionVO permissionVO = new PermissionVO(permission);
-                // 将子菜单List添加到父菜单下
-                permissionVO.setChildMenu(subPermissionVOs);
-                // 将父菜单添加到父菜单List
-                permissionVOs.add(permissionVO);
-            }
+        List<PermissionVO> permissionVOList = new ArrayList<>();
+        try {
+            // 先拿到所有菜单
+            permissionVOList = getPermissionVOList(permissionMapper.selectAllMenu());
+        } catch (DataAccessException e) {
+            System.out.println("find all menu fail");
         }
-        return permissionVOs;
+        return permissionVOList;
+    }
+
+    @Override
+    public List<PermissionVO> findMenuByUserId(Integer userId) {
+        List<PermissionVO> permissionVOList = new ArrayList<>();
+        try {
+            permissionVOList = getPermissionVOList(permissionMapper.selectMenuByUserId(userId));
+        } catch (DataAccessException e) {
+            System.out.println("fail to find menu by user id");
+        }
+        return permissionVOList;
     }
 
     @Override
@@ -118,6 +115,42 @@ public class PermissionServiceImpl implements IPermissionService {
             System.out.println("delete permission fail");
         }
         return null;
+    }
+
+    /**
+     *  将查询出来的所有菜单分出子父菜单
+     * @param permissions
+     * @return
+     */
+    private List<PermissionVO> getPermissionVOList(List<TPermission> permissions) {
+        if (CollectionUtils.isEmpty(permissions)) {
+            return new ArrayList<>();
+        }
+        // 定义permissionVO的List
+        List<PermissionVO> permissionVOs = new ArrayList<>();
+        // 遍历permissions，将菜单放进permissionVOs中
+        // 两次循环，第一次拿到根菜单，第二次拿到各自的子菜单
+        for (TPermission permission : permissions) {
+            if (permission.getPid() == 0) {
+                // 存放子菜单的List
+                List<PermissionVO> subPermissionVOs = new ArrayList<>();
+                for (TPermission p : permissions) {
+                    if (p.getPid().equals(permission.getId())) {
+                        subPermissionVOs.add(new PermissionVO(p));
+                    }
+                }
+                // 父菜单
+                PermissionVO permissionVO = new PermissionVO(permission);
+                // 将子菜单List添加到父菜单下，先排序
+                Collections.sort(subPermissionVOs, (o1, o2) -> o1.getId() - o2.getId());
+                permissionVO.setChildMenu(subPermissionVOs);
+                // 将父菜单添加到父菜单List
+                permissionVOs.add(permissionVO);
+            }
+        }
+        // 对父菜单排序
+        Collections.sort(permissionVOs, (o1, o2) -> o1.getId() - o2.getId());
+        return permissionVOs;
     }
 
 }

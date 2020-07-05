@@ -23,6 +23,12 @@
             (#{roleId},#{pId})
         </foreach>
     </insert>
+
+    <select id="selectMenuByUserId" resultType="me.jar.scw.manager.model.TPermission">
+        SELECT DISTINCT p.* FROM t_permission p
+	        LEFT JOIN t_role_permission rp ON rp.permissionid=p.id
+	        LEFT JOIN t_user_role ur ON ur.roleid=rp.roleid WHERE ur.userid=#{userId}
+    </select>
 </mapper>
 
 

@@ -71,22 +71,18 @@ public class UserController {
      * @return
      */
     @RequestMapping("reg.do")
-    public String userReg(TUser user, ModelMap modelMap, HttpSession session) {
-        //1.获取传过来的数据 TODO 校验
-        //2.获取创建用户结果
-        boolean result = userService.createNewUser(user);
-        //3.返回响应结果给前端页面
-        //成功，发送main页面过去，并且将用户名回显（同时创建session，存放用户Id拼接用户名)
-        if (result) {
-            session.setAttribute(Constants.USER_SESSION, user.getId() + ":" +  user.getUserName());
-            addUserName(session, user.getUserName());
-            addUserMenu(session);
-            // 解决第一次重定向出现jsessionid问题 TODO
-            return Constants.REDIRECT_TO_MAIN;
+    @ResponseBody
+    public String userReg(TUser user) {
+        JSONObject result = new JSONObject();
+        boolean isSuccess = userService.createNewUser(user);
+        if (isSuccess) {
+            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
+                    me.jar.scw.manager.controller.constant.Constants.SUCCESS);
+        } else {
+            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
+                    me.jar.scw.manager.controller.constant.Constants.FAIL);
         }
-        //失败，重定向到reg页面，并且携带已传入数据（后续考虑使用Ajax，不再重定向页面）
-        modelMap.addAttribute("user", user);
-        return "reg";
+        return result.toJSONString();
     }
 
     /**
@@ -104,7 +100,8 @@ public class UserController {
         if (id != null) {
             session.setAttribute(Constants.USER_SESSION, id + ":" +  user.getUserName());
             addUserName(session, user.getUserName());
-            addUserMenu(session);
+            addUserMenuByUserId(session, id);
+            System.out.println("用户【" + user.getUserName() + "】登录成功");
             // 解决第一次重定向出现jsessionid问题 TODO
             return Constants.REDIRECT_TO_MAIN;
         }
@@ -206,13 +203,14 @@ public class UserController {
     }
 
     /**
-     *  注册或登录成功均将菜单放入session中
+     *  登录成功将菜单放入session中
      * @param session
      */
-    private void addUserMenu(HttpSession session) {
-        List<PermissionVO> allMemu = permissionService.findAllMemu();
+    private void addUserMenuByUserId(HttpSession session, Integer userId) {
+        List<PermissionVO> allMemu = permissionService.findMenuByUserId(userId);
         session.setAttribute(Constants.USER_MENU, allMemu);
     }
+
 
     /**
      *  session中放入用户，方便nav读取

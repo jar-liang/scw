@@ -18,6 +18,13 @@ public interface TPermissionMapper {
     List<TPermission> selectAllMenu();
 
     /**
+     *  根据用户id查询拥有的权限菜单
+     * @param userId
+     * @return
+     */
+    List<TPermission> selectMenuByUserId(Integer userId);
+
+    /**
      *  根据角色id查询对应的权限id
      * @param roleId
      * @return

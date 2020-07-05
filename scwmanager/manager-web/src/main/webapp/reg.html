@@ -23,9 +23,11 @@
 
     <div class="container">
 
-      <form id="reg-form" class="form-signin" role="form" action="user/reg.do" method="post">
+      <form id="reg-form" class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户注册</h2>
-
+          <div id="success_tip" class="alert alert-warning alert-dismissible" role="alert" style="display: none">
+              <strong>提示</strong> 注册成功，即将转跳到登录界面...
+          </div>
 		  <div class="form-group has-success has-feedback">
 			<input type="text" class="form-control" placeholder="请输入登录账号" name="userName" autofocus>
 			<span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -55,7 +57,7 @@
             <a href="login.html">我有账号</a>
           </label>
         </div>
-        <input id="to-submit" class="btn btn-lg btn-success btn-block" type="submit" value="注册" />
+        <input id="to-submit" class="btn btn-lg btn-success btn-block" type="button" value="注册" />
       </form>
     </div>
     <script src="jquery/jquery-2.1.1.min.js"></script>
@@ -99,6 +101,24 @@
                 },
                 email: "请输入正确的邮箱"
             }
+        });
+
+        $("#to-submit").click(function () {
+            $.ajax({
+                url: "user/reg.do",
+                data: $("#reg-form").serialize(),
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "success") {
+                        $("#success_tip").show("fast").delay(3000).fadeOut("fast", function () {
+                            location.href = "login.html";
+                        });
+                    } else {
+                        alert("注册失败，请重试！");
+                    }
+                }
+            });
         });
     </script>
   </body>

@@ -62,6 +62,18 @@ public class DispatchController {
     }
 
     /**
+     *  转发许可维护页面
+     * @param session
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("per/permission.do")
+    public String showPermissionPage(HttpSession session, ModelMap modelMap) {
+        setModelMap(session, modelMap, getUserNameFromSession(session));
+        return "permission";
+    }
+
+    /**
      *  转发编辑页面
      */
     @RequestMapping("user/showedit.do")
@@ -136,6 +148,22 @@ public class DispatchController {
         return "role";
     }
 
+    /**
+     *  登出系统
+     * @return
+     */
+    @RequestMapping("logout.do")
+    public String logout(HttpSession session) {
+        Object user = session.getAttribute(Constants.USER_SESSION);
+        if (user != null) {
+            // 如果已登录，登出就删除该session
+            session.removeAttribute(user.toString());
+            System.out.println("用户【" + session.getAttribute(Constants.USER_NAME) + "】登出成功");
+        }
+        // 返回登录页面
+        return Constants.REDIRECT_TO_LOGIN;
+    }
+
 
 
     /**
@@ -156,7 +184,7 @@ public class DispatchController {
     public static void setModelMap(HttpSession session, ModelMap modelMap, String userName) {
         userName = userName.substring(userName.lastIndexOf(':') + 1);
         modelMap.addAttribute("userName", userName);
-        // 将菜单数据放进modelMap中 TODO
+        // 将菜单数据放进modelMap中
         List<PermissionVO> userMenu = (List<PermissionVO>) session.getAttribute(Constants.USER_MENU);
         modelMap.addAttribute("userMenu", userMenu);
     }

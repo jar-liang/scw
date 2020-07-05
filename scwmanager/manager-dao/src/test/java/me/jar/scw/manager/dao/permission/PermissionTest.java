@@ -53,4 +53,11 @@ public class PermissionTest {
         Integer row = mapper.deletePermissionIdByRoleId(roleId);
         System.out.println(row);
     }
+
+    @Test
+    public void testSelectMenuByUserId() {
+        Integer userId = 53;
+        List<TPermission> permissions = mapper.selectMenuByUserId(userId);
+        permissions.forEach(permission -> System.out.println("menu name: " + permission.getName()));
+    }
 }

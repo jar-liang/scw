@@ -18,6 +18,13 @@ public interface IPermissionService {
     List<PermissionVO> findAllMemu();
 
     /**
+     *  根据用户id找出对应权限菜单
+     * @param userId
+     * @return
+     */
+    List<PermissionVO> findMenuByUserId(Integer userId);
+
+    /**
      *  找出所有菜单
      * @return
      */
