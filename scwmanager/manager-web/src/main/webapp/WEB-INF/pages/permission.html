@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="UTF-8" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+	<link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}">
+	<link rel="stylesheet" href="css/doc.min.css" th:href="@{/css/doc.min.css}">
+	<link rel="stylesheet" href="ztree/zTreeStyle.css" th:href="@{/ztree/zTreeStyle.css}">
+    <script src="jquery/jquery-2.1.1.min.js" th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
+    <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="script/docs.min.js" th:src="@{/script/docs.min.js}"></script>
+    <script src="ztree/jquery.ztree.all-3.5.min.js" th:src="@{/ztree/jquery.ztree.all-3.5.min.js}"></script>
+	<style>
+	.tree li {
+        list-style-type: none;
+		cursor:pointer;
+	}
+	</style>
+  </head>
+
+  <body>
+
+  <nav th:replace="module/nav::nav"></nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+			<div th:replace="module/menu::userMenu"></div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+			<div class="panel panel-default">
+              <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> 权限菜单列表 <div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
+			  <div class="panel-body">
+                  <ul id="permissonTree" class="ztree"></ul>
+			  </div>
+			</div>
+        </div>
+      </div>
+    </div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">帮助</h4>
+		  </div>
+		  <div class="modal-body">
+
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Save changes</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+        <script type="text/javascript">
+
+			// 全局常量，权限路径
+			var baseUrl = "/scw/permission/";
+			// 权限数对象
+			var ztreeObject;
+
+            $(function () {
+			    $(".list-group-item").click(function(){
+				    if ( $(this).find("ul") ) {
+						$(this).toggleClass("tree-closed");
+						if ( $(this).hasClass("tree-closed") ) {
+							$("ul", this).hide("fast");
+						} else {
+							$("ul", this).show("fast");
+						}
+					}
+				});
+            });
+
+            // 展示权限树
+			$(function () {
+				var setting = {
+					data: {
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "pid"
+						},
+						key: {
+							url: "noUrl"
+						}
+					},
+					view: {
+						addDiyDom: addIconClass
+					},
+					check: {
+						enable: true
+					}
+				};
+				// zNode 权限信息从数据库查出
+				var zNodes;
+				$.ajax({
+					url: baseUrl + "permissiontree.do",
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						if (data == '') {
+							zNodes = [];
+						} else {
+							zNodes = data;
+							$.each(zNodes,function () {
+								if(this.pid == 0) {
+									this.open = true;
+								}
+							})
+						}
+						ztreeObject = $.fn.zTree.init($("#permissonTree"), setting, zNodes);
+					}
+				});
+			});
+
+			function addIconClass(treeId, treeNode) {
+				$("#" + treeNode.tId + "_ico").removeClass().before("<span class='"+ treeNode.icon + "'></span>");
+			}
+
+			// 将导航栏-菜单名改成当前菜单名
+			$("#nav-page-name").text($("a[href='/scw/per/permission.do'] span").text());
+			$("a[href='/scw/per/permission.do']").css("color", "red");
+			$("a[href='/scw/per/permission.do']").parents(".list-group-item").removeClass("tree-closed").children("ul").show(10);
+        </script>
+  </body>
+</html>

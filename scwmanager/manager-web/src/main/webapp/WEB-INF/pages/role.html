@@ -484,7 +484,7 @@
             }
 
             function addIconClass(treeId, treeNode) {
-                $("#" + treeNode.tId + "_ico").removeClass().addClass(treeNode.icon);
+                $("#" + treeNode.tId + "_ico").removeClass().before("<span class='"+ treeNode.icon + "'></span>");
             }
 
             function checkNode(id) {
