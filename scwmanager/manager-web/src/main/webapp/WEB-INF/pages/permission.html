@@ -97,11 +97,10 @@
 						}
 					},
 					view: {
-						addDiyDom: addIconClass
+						addDiyDom: addIconClass,
+						addHoverDom: showEditBtn,
+						removeHoverDom: hideEditBtn
 					},
-					check: {
-						enable: true
-					}
 				};
 				// zNode 权限信息从数据库查出
 				var zNodes;
@@ -124,6 +123,21 @@
 					}
 				});
 			});
+			
+			function hideEditBtn(treeId, treeNode) {
+				$("#" + treeNode.tId + "_a").nextAll("button").remove();
+			}
+			
+			function showEditBtn(treeId, treeNode) {
+				$("#" + treeNode.tId + "_a").nextAll("button").remove();
+				var btn = $("<button type='button' class='btn btn-primary btn-xs'>编辑</button>");
+				$("#" + treeNode.tId + "_a").after(btn);
+				btn.click(showModel);
+			}
+
+			function showModel() {
+				$("#myModal").modal("show");
+			}
 
 			function addIconClass(treeId, treeNode) {
 				$("#" + treeNode.tId + "_ico").removeClass().before("<span class='"+ treeNode.icon + "'></span>");
