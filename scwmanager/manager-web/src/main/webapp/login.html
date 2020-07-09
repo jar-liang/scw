@@ -22,15 +22,17 @@
 
     <div class="container">
 
-      <form id="login-form" class="form-signin" role="form" method="post" action="user/login.do">
+      <form id="login-form" class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
 		  <div class="form-group has-success has-feedback">
-			<input type="text" class="form-control" name="userName" placeholder="请输入登录账号" autofocus>
+			<input type="text" class="form-control edit" name="userName" placeholder="请输入登录账号" autofocus>
 			<span class="glyphicon glyphicon-user form-control-feedback"></span>
               <span class="error-info" style="color: red"></span>
 		  </div>
 		  <div class="form-group has-success has-feedback">
-			<input type="password" class="form-control" name="userPswd" placeholder="请输入登录密码" style="margin-top:10px;">
+              <a tabindex="0" style="float:right" id="login_fail_tip" role="button" data-toggle="popover" data-trigger="focus"
+                 data-placement="right" title="提示" data-content="用户名或密码错误"></a>
+			<input type="password" class="form-control edit" name="userPswd" placeholder="请输入登录密码" style="margin-top:10px;">
 			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
               <span class="error-info" style="color: red"></span>
 		  </div>
@@ -46,13 +48,14 @@
           </label>
           <br>
           <label>
-            忘记密码
+              <a href="reg.html">忘记密码</a>
           </label>
           <label style="float:right">
             <a href="reg.html">我要注册</a>
           </label>
         </div>
-          <input class="btn btn-lg btn-success btn-block" type="submit" value="登录">
+
+          <input id="login_btn" class="btn btn-lg btn-success btn-block" type="button" value="登录">
       </form>
     </div>
     <script src="jquery/jquery-2.1.1.min.js"></script>
@@ -94,14 +97,36 @@
                 }
             });
 
-        function dologin() {
-            var type = $(":selected").val();
-            if ( type == "user" ) {
-                window.location.href = "main.html";
-            } else {
-                window.location.href = "index.html";
-            }
-        }
+
+
+            $("#login_btn").click(function () {
+                $.ajax({
+                    url: "user/login.do",
+                    data: $("#login-form").serialize(),
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            location.href="main.do";
+                        } else {
+                            // 清空密码输入框，提示错误
+                            $("input[name='userPswd']").val("");
+                            $("#login_fail_tip").popover("show");
+                            // alert("用户名或密码错误，请重试");
+                        }
+                    },
+                    error: function () {
+                        alert("登录发生错误，请重试或联系管理员");
+                    }
+                });
+            });
+
+        $(".edit").each(function () {
+            $(this).mouseenter(function () {
+                $("#login_fail_tip").popover('hide');
+            })
+        })
+
     </script>
   </body>
 </html>

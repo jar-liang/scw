@@ -92,7 +92,9 @@ public class UserController {
      * @return
      */
     @RequestMapping("login.do")
-    public String userLogin(TUser user, ModelMap modelMap, HttpSession session) {
+    @ResponseBody
+    public String userLogin(TUser user, HttpSession session) {
+        JSONObject result = new JSONObject();
         //1.获取传过来的数据 TODO 校验
         //2.获取查询结果，成功返回用户在数据库的id，失败返回null
         Integer id = userService.checkLogin(user);
@@ -102,12 +104,14 @@ public class UserController {
             addUserName(session, user.getUserName());
             addUserMenuByUserId(session, id);
             System.out.println("用户【" + user.getUserName() + "】登录成功");
-            // 解决第一次重定向出现jsessionid问题 TODO
-            return Constants.REDIRECT_TO_MAIN;
+            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
+                me.jar.scw.manager.controller.constant.Constants.SUCCESS);
+            return result.toJSONString();
         }
         //4.失败，重定向登录页面，并提示用户名或密码错误（后续考虑使用Ajax，不再重定向页面）
-        modelMap.addAttribute("userName", user.getUserName());
-        return "login";
+        result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
+                me.jar.scw.manager.controller.constant.Constants.FAIL);
+        return result.toJSONString();
     }
 
     /**
