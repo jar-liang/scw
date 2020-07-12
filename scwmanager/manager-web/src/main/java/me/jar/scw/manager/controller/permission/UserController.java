@@ -2,6 +2,8 @@ package me.jar.scw.manager.controller.permission;
 
 import com.alibaba.fastjson.JSONObject;
 import me.jar.scw.manager.controller.DispatchController;
+import me.jar.scw.manager.controller.constant.WebConstants;
+import me.jar.scw.manager.controller.util.ControllerUtils;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.model.constant.Constants;
 import me.jar.scw.manager.model.vo.PageVO;
@@ -76,11 +78,11 @@ public class UserController {
         JSONObject result = new JSONObject();
         boolean isSuccess = userService.createNewUser(user);
         if (isSuccess) {
-            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
-                    me.jar.scw.manager.controller.constant.Constants.SUCCESS);
+            result.put(WebConstants.STATUS,
+                    WebConstants.SUCCESS);
         } else {
-            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
-                    me.jar.scw.manager.controller.constant.Constants.FAIL);
+            result.put(WebConstants.STATUS,
+                    WebConstants.FAIL);
         }
         return result.toJSONString();
     }
@@ -104,13 +106,13 @@ public class UserController {
             addUserName(session, user.getUserName());
             addUserMenuByUserId(session, id);
             System.out.println("用户【" + user.getUserName() + "】登录成功");
-            result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
-                me.jar.scw.manager.controller.constant.Constants.SUCCESS);
+            result.put(WebConstants.STATUS,
+                WebConstants.SUCCESS);
             return result.toJSONString();
         }
         //4.失败，重定向登录页面，并提示用户名或密码错误（后续考虑使用Ajax，不再重定向页面）
-        result.put(me.jar.scw.manager.controller.constant.Constants.STATUS,
-                me.jar.scw.manager.controller.constant.Constants.FAIL);
+        result.put(WebConstants.STATUS,
+                WebConstants.FAIL);
         return result.toJSONString();
     }
 
@@ -178,6 +180,25 @@ public class UserController {
             result.put("status", "fail");
             return result.toJSONString();
         }
+    }
+
+    /**
+     *  处理找回密码
+     * @param
+     * @return
+     */
+    @RequestMapping("findPwd.do")
+    @ResponseBody
+    public String findBackPwd(@RequestParam("emailName") String emailName) {
+        // 检验email，合法性检验(格式)
+        String email = ControllerUtils.checkStringLength(emailName, ControllerUtils.PARAM_LENGTH_MAX_256);
+        // 正则校验通过，执行service层操作，否则直接返回结果
+        if (ControllerUtils.isEmailLegal(email)) {
+            System.out.println("start to send email");
+            // 执行发送邮箱 TODO
+        }
+        // 考虑安全性，不管是否存在注册时填写的邮箱，均返回邮件发送成功
+        return "{\"status\":\"success\"}";
     }
 
     /**

@@ -22,6 +22,7 @@
             <!--      添加例外      -->
             <mvc:exclude-mapping path="/**/reg.do"/>
             <mvc:exclude-mapping path="/**/login.do"/>
+            <mvc:exclude-mapping path="/**/findPwd.do"/>
             <!-- 拦截器类 -->
             <bean class="me.jar.scw.manager.controller.interceptor.LoginInterceptor" />
         </mvc:interceptor>

@@ -4,7 +4,7 @@ package me.jar.scw.manager.controller.constant;
  * @Description 常量类
  * @Date 2020/6/14-13:55
  */
-public interface Constants {
+public interface WebConstants {
     /**
      *  回复给前端的状态
      */

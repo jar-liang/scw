@@ -2,7 +2,7 @@ package me.jar.scw.manager.controller.permission;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import me.jar.scw.manager.controller.constant.Constants;
+import me.jar.scw.manager.controller.constant.WebConstants;
 import me.jar.scw.manager.controller.util.ControllerUtils;
 import me.jar.scw.manager.model.TPermission;
 import me.jar.scw.manager.service.IPermissionService;
@@ -80,9 +80,9 @@ public class PermissionController {
             System.out.println("execute update fail");
         }
         if (flag) {
-            result.put(Constants.STATUS, Constants.SUCCESS);
+            result.put(WebConstants.STATUS, WebConstants.SUCCESS);
         } else {
-            result.put(Constants.STATUS, Constants.FAIL);
+            result.put(WebConstants.STATUS, WebConstants.FAIL);
         }
         return result.toJSONString();
     }
@@ -99,9 +99,9 @@ public class PermissionController {
         JSONObject result = new JSONObject();
         Integer row = permissionService.deleteAllPermission(roleIdParam);
         if (row != null) {
-            result.put(Constants.STATUS, Constants.SUCCESS);
+            result.put(WebConstants.STATUS, WebConstants.SUCCESS);
         } else {
-            result.put(Constants.STATUS, Constants.FAIL);
+            result.put(WebConstants.STATUS, WebConstants.FAIL);
         }
         return result.toJSONString();
     }
@@ -118,11 +118,11 @@ public class PermissionController {
         JSONObject result = new JSONObject();
         Integer deleteResult = permissionService.deleteRoleById(roleIdParam);
         if (DELETE_SUCCESS.equals(deleteResult)) {
-            result.put(Constants.STATUS, Constants.SUCCESS);
+            result.put(WebConstants.STATUS, WebConstants.SUCCESS);
         } else if (DELETE_FAIL_RESTRAIN.equals(deleteResult)) {
-            result.put(Constants.STATUS, "restrain");
+            result.put(WebConstants.STATUS, "restrain");
         } else {
-            result.put(Constants.STATUS, Constants.FAIL);
+            result.put(WebConstants.STATUS, WebConstants.FAIL);
         }
         return result.toJSONString();
     }
@@ -134,7 +134,7 @@ public class PermissionController {
      */
     private List<String> checkMultiId(String multiId) {
         List<String> multiIdList = new ArrayList<>();
-        String checkPid = ControllerUtils.checkString(multiId, ControllerUtils.PARAM_LENGTH_MAX_256);
+        String checkPid = ControllerUtils.checkStringLength(multiId, ControllerUtils.PARAM_LENGTH_MAX_256);
         String[] pIds = checkPid.split(",");
         if (pIds != null && pIds.length >= 1) {
             for (String pid : pIds) {

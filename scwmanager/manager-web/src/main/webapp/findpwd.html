@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keys" content="">
+    <meta name="author" content="">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/login.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <form id="login-form" class="form-signin" role="form">
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 找回密码</h2>
+		  <div class="form-group has-success has-feedback">
+			<input type="text" class="form-control edit" name="emailName" placeholder="请输入注册时的邮箱" autofocus>
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+              <span class="error-info" style="color: red"></span>
+		  </div>
+          <input id="send_btn" class="btn btn-lg btn-success btn-block" type="button" value="发送邮件">
+      </form>
+    </div>
+    <!-- 提示信息模态框 -->
+    <div class="modal" id="tipModal" tabindex="-1" role="dialog" aria-labelledby="tipModalLable">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="tipModalLable">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <h3><strong>发送成功</strong>，请到您的邮箱查看找回密码邮件</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="plugins/jquery-validation-1.13.1/dist/jquery.validate.min.js" ></script>
+    <script>
+        $.validator.setDefaults({
+            showErrors: function(map, list) {
+                $(".error-info").empty();
+                $(".form-group").removeClass("has-success has-error has-warning");
+                $.each(list, function () {
+                    //alert(this.element);
+                    $(this.element).nextAll(".error-info").text(this.message);
+                    $(this.element).parent("div.form-group").addClass("has-error");
+                })
+            }
+        });
+
+            $("#login-form").validate({
+                rules: {
+                    emailName: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    emailName: "请输入正确的邮箱"
+                }
+            });
+
+
+            $("#send_btn").click(function () {
+                var option = {
+                    backdrop:"static",
+                    show: true
+                }
+
+                $.ajax({
+                    url: "user/findPwd.do",
+                    data: "emailName=" + $("input[name='emailName']").val(),
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            $("#tipModal").modal(option);
+                        }
+                    },
+                    error: function () {
+                        alert("操作发生错误，请重试或联系管理员");
+                    }
+                });
+            });
+
+    </script>
+  </body>
+</html>

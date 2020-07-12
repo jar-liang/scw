@@ -42,11 +42,26 @@ public final class ControllerUtils {
      * @param maxStringLength
      * @return
      */
-    public static String checkString(String inputString, int maxStringLength) {
+    public static String checkStringLength(String inputString, int maxStringLength) {
         if (StringUtils.isEmpty(inputString)) {
             return StringUtils.EMPTY;
         }
         return inputString.length() > maxStringLength ? inputString.substring(0, maxStringLength) : inputString;
 
+    }
+
+    /**
+     *  检验邮箱合法性
+     * @param email
+     * @return
+     */
+    public static boolean isEmailLegal(String email) {
+        if (StringUtils.isEmpty(email)) {
+            return false;
+        }
+        if (Pattern.matches("^[a-z0-9A-Z][- | a-z0-9A-Z_.]{1,64}@[a-z0-9A-Z][a-zA-Z0-9.-]{1,64}\\.[a-zA-Z]{1,5}$", email)) {
+            return true;
+        }
+        return false;
     }
 }
