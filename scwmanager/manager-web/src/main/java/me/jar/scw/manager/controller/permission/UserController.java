@@ -190,7 +190,7 @@ public class UserController {
     @RequestMapping("findPwd.do")
     @ResponseBody
     public String findBackPwd(@RequestParam("emailName") String emailName) {
-        // 检验email，合法性检验(格式)
+        // 检验email，参数长度校验（特殊字符检验未添加)
         String email = ControllerUtils.checkStringLength(emailName, ControllerUtils.PARAM_LENGTH_MAX_256);
         // 正则校验通过，执行service层操作，否则直接返回结果
         if (ControllerUtils.isEmailLegal(email)) {
