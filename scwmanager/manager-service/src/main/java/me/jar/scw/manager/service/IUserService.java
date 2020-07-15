@@ -1,7 +1,6 @@
 package me.jar.scw.manager.service;
 
 import me.jar.scw.manager.model.TUser;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -62,5 +61,11 @@ public interface IUserService {
      * @return
      */
     Integer deleteUser(List<Integer> idList);
+
+    /**
+     *  给用户邮件箱发送找回设置密码的邮件
+     * @param email
+     */
+    void sendMailForResetPwd(String email);
 
 }

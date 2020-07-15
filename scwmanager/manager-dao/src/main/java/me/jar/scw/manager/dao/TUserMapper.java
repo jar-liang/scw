@@ -63,4 +63,20 @@ public interface TUserMapper {
      * @return
      */
     Integer deleteUserById(List<Integer> idList);
+
+    /**
+     *  通过email查询用户id，也可以判断该邮箱是否有用户注册，如果返回结果为null，则该邮箱未注册用户
+     * @param email
+     * @return
+     */
+    Integer selectUserIdByEmail(String email);
+
+    /**
+     *  将用户id和对应的token存入token表
+     * @param userId
+     * @param token
+     * @return
+     */
+    Integer insertUserToken(@Param("userId") Integer userId, @Param("token") String token);
+
 }

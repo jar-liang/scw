@@ -1,17 +1,17 @@
 package me.jar.scw.service.user;
 
-import com.github.pagehelper.PageInfo;
 import me.jar.scw.manager.model.TUser;
 import me.jar.scw.manager.service.IUserService;
+import me.jar.scw.manager.service.util.ServiceUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Description
@@ -88,5 +88,25 @@ public class UserTest {
         List<Integer> idList = Arrays.asList(83,84);
         Integer row = userService.deleteUser(idList);
         System.out.println("delete number: " + row);
+    }
+
+    @Test
+    public void testUUID() {
+        String uuid = UUID.randomUUID().toString();
+        String token = uuid + System.currentTimeMillis();
+        System.out.println(token);
+    }
+
+    @Test
+    public void testSendEmail() {
+        String userEmail = "lisi@jar.me";
+        String url = "http://127.0.0.1:8080/scw/login.html";
+        ServiceUtils.sendEmailForFindPwd(userEmail, url);
+    }
+
+    @Test
+    public void testsendMailForResetPwd() {
+        String email = "lisi@jar.me";
+        userService.sendMailForResetPwd(email);
     }
 }

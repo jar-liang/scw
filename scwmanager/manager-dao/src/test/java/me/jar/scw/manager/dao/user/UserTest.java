@@ -1,6 +1,5 @@
 package me.jar.scw.manager.dao.user;
 
-import com.github.pagehelper.PageHelper;
 import me.jar.scw.manager.dao.TUserMapper;
 import me.jar.scw.manager.model.TUser;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Description
@@ -83,4 +83,28 @@ public class UserTest {
         Integer row = userMapper.deleteUserById(idList);
         System.out.println("delete number: " + row);
     }
+
+    @Test
+    public void testSelectUserIdByEmail() {
+        String email = "aaa@bbb.bom";
+        Integer id = userMapper.selectUserIdByEmail(email);
+        if (id != null) {
+            System.out.println("user id is " + id);
+        } else {
+            System.out.println("user not exist");
+        }
+    }
+
+    @Test
+    public void testInsertUserToken() {
+        String token = UUID.randomUUID().toString() + System.currentTimeMillis();
+        Integer userId = 68;
+        Integer row = userMapper.insertUserToken(userId, token);
+        if (Integer.valueOf(1).equals(row)) {
+            System.out.println("insert success");
+        } else {
+            System.out.println("insert fail");
+        }
+    }
+
 }
