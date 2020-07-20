@@ -128,12 +128,14 @@ public class UserServiceImpl implements IUserService {
         try {
             // 查询数据库，是否存在该邮箱，存在则发送，否则不发送
             Integer userId = tUserMapper.selectUserIdByEmail(email);
-            if (Integer.valueOf(0).equals(userId)) {
+            if (userId == null || userId == 0) {
                 System.out.println("user does't exist");
                 return;
             }
             // 有个问题待以后解决，如果用户很短时间内继续发找回密码，怎么处理（初步觉得可以查询token表里的时间
             // 如果时间过短，给出提示，过一定时间后再申请找回密码 TODO
+            // 先删除已存在的记录
+            tUserMapper.deleteIfRecordExist(userId);
             // 发送邮件，里面是一条重置密码的链接，链接带上token
             // 先生成token，UUID，将其与用户id对应(新建一个表，保存用户id和token对应关系，还有一个时效性，超时链接失效)
             String token = UUID.randomUUID().toString() + System.currentTimeMillis();
@@ -144,11 +146,12 @@ public class UserServiceImpl implements IUserService {
             }
             // 发送邮件 1.先生成带token的url 2.将该url发送到用户注册邮箱
             // 该url要考虑controller的接口 TODO
-            String urlForRestPwd = "http://127.0.0.1:8080/scw/login.html?token=" +token;
+            String urlForRestPwd = "http://127.0.0.1:8080/scw/user/resetpwdpage.do?token=" +token;
             ServiceUtils.sendEmailForFindPwd(email,urlForRestPwd);
             System.out.println("email send");
         } catch (DataAccessException e) {
             System.out.println("select userid fail or insert token failed");
+            e.printStackTrace();
         }
     }
 

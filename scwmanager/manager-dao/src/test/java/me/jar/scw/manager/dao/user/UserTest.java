@@ -107,4 +107,11 @@ public class UserTest {
         }
     }
 
+    @Test
+    public void testDeleteIfRecordExist() {
+        Integer userId = 45;
+        Integer row = userMapper.deleteIfRecordExist(userId);
+        System.out.println(row);
+    }
+
 }

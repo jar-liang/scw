@@ -79,4 +79,10 @@ public interface TUserMapper {
      */
     Integer insertUserToken(@Param("userId") Integer userId, @Param("token") String token);
 
+    /**
+     *  如果token表里有对应userId的记录，先删除该条记录
+     * @param userId
+     * @return
+     */
+    Integer deleteIfRecordExist(Integer userId);
 }

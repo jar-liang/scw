@@ -96,6 +96,10 @@
 		INSERT INTO t_user_token(userid,token,createtime) VALUES (#{userId},#{token},NOW())
 	</insert>
 
+    <delete id="deleteIfRecordExist">
+        DELETE FROM t_user_token WHERE userid=#{userId}
+    </delete>
+
 </mapper>
 
 

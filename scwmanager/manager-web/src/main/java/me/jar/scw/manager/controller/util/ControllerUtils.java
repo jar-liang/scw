@@ -14,6 +14,7 @@ public final class ControllerUtils {
     }
 
     public static final int PARAM_LENGTH_MAX_16 = 16;
+    public static final int PARAM_LENGTH_MAX_64 = 64;
     public static final int PARAM_LENGTH_MAX_256 = 256;
 
     /**

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Description 用户登录注册控制器
@@ -183,7 +184,7 @@ public class UserController {
     }
 
     /**
-     *  处理找回密码
+     *  处理找回密码，发送找回密码邮件
      * @param
      * @return
      */
@@ -195,10 +196,56 @@ public class UserController {
         // 正则校验通过，执行service层操作，否则直接返回结果
         if (ControllerUtils.isEmailLegal(email)) {
             System.out.println("start to send email");
-            // 执行发送邮箱 TODO
+            // 执行发送邮箱
+            userService.sendMailForResetPwd(email);
         }
         // 考虑安全性，不管是否存在注册时填写的邮箱，均返回邮件发送成功
         return "{\"status\":\"success\"}";
+    }
+
+    /**
+     *  将重置密码的页面发送出去
+     * @param token
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("resetpwdpage.do")
+    public String sendResetPwdPage(String token, ModelMap modelMap) {
+        // 校验token
+        String checkToken = ControllerUtils.checkStringLength(token, ControllerUtils.PARAM_LENGTH_MAX_64);
+        if (Pattern.matches("[a-zA-Z0-9-]{49}", checkToken)) {
+            // 将token放入页面隐藏元素里，发送页面出去
+            modelMap.addAttribute("token", token);
+        } else {
+            System.out.println("invalid token");
+            modelMap.addAttribute("token", "");
+        }
+        return "resetpwd.html";
+    }
+
+    /**
+     *  重置密码
+     * @param token
+     * @param pwd
+     * @return
+     */
+    @RequestMapping("resetpwd.do")
+    @ResponseBody
+    public String resetPwd(@RequestParam("token") String token, @RequestParam("pwd") String pwd) {
+        // 校验token，pwd，目前还未考虑xss，crsf的过滤，所以特殊字符过滤以后再弄
+        String checkToken = ControllerUtils.checkStringLength(token, ControllerUtils.PARAM_LENGTH_MAX_64);
+        String checkPwd = ControllerUtils.checkStringLength(pwd, ControllerUtils.PARAM_LENGTH_MAX_64);
+        JSONObject result = new JSONObject();
+        result.put(WebConstants.STATUS, WebConstants.FAIL);
+        if (!Pattern.matches("[a-zA-Z0-9-]{49}", checkToken)) {
+            System.out.println("invalid token");
+            return result.toJSONString();
+        }
+        // service层处理，如果处理成功返回true，否则返回false，根据service处理结果返回前端提示
+        System.out.println("token: " + checkToken);
+        System.out.println("pwd: " + checkPwd);
+        result.put(WebConstants.STATUS, WebConstants.SUCCESS);
+        return result.toJSONString();
     }
 
     /**

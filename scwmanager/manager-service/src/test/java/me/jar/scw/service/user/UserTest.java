@@ -109,4 +109,5 @@ public class UserTest {
         String email = "lisi@jar.me";
         userService.sendMailForResetPwd(email);
     }
+
 }
