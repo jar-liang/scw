@@ -155,6 +155,32 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public boolean resetPwd(String token, String pwd) {
+        try {
+            // 检查token是否有效（存在且时效在半小时内）
+            Integer resultRow = tUserMapper.checkTokenExist(token);
+            if (resultRow == null || resultRow == 0) {
+                System.out.println("invalid token");
+                return false;
+            }
+            // 有效，查询token表对应的userid，加密pwd，更新user表对应userid的pwd
+            Integer userId = tUserMapper.selectUserIdByToken(token);
+            if (userId == null) {
+                System.out.println("can't find userId by token");
+                return false;
+            }
+            String encryptPwd = getEncryptPwd(pwd);
+            tUserMapper.updatePwdByUserId(userId, encryptPwd);
+            // 将token表对应token那条数据删除
+            tUserMapper.deleteIfRecordExist(userId);
+            return true;
+        } catch (DataAccessException e) {
+            System.out.println("database operation exception. " + e.getMessage());
+        }
+        return false;
+    }
+
     private static String getEncryptPwd(String pwd) {
         if (pwd == null || "".equals(pwd)) {
             return null;

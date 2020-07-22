@@ -68,4 +68,13 @@ public interface IUserService {
      */
     void sendMailForResetPwd(String email);
 
+    /**
+     *  检查token有效性，重置用户密码
+     *
+     * @param token
+     * @param pwd
+     * @return
+     */
+    boolean resetPwd(String token, String pwd);
+
 }

@@ -98,7 +98,7 @@ public class UserTest {
     @Test
     public void testInsertUserToken() {
         String token = UUID.randomUUID().toString() + System.currentTimeMillis();
-        Integer userId = 68;
+        Integer userId = 69;
         Integer row = userMapper.insertUserToken(userId, token);
         if (Integer.valueOf(1).equals(row)) {
             System.out.println("insert success");
@@ -114,4 +114,29 @@ public class UserTest {
         System.out.println(row);
     }
 
+    @Test
+    public void testCheckTokenExist() {
+        String token = "7cd4e4e3-c72a-466e-8213-bbe04113b92b1595260950656";
+        Integer result = userMapper.checkTokenExist(token);
+        if (result != null && result == 1) {
+            System.out.println("token valid");
+        } else {
+            System.out.println("invalid token");
+        }
+    }
+
+    @Test
+    public void testSelectUserIdByToken() {
+        String token = "7cd4e4e3-c72a-466e-8213-bbe04113b92b1595260950656";
+        Integer userId = userMapper.selectUserIdByToken(token);
+        System.out.println(userId);
+    }
+
+    @Test
+    public void testUpdatePwdByUserId() {
+        Integer userId = 64;
+        String pwd = "bbbbbb";
+        Integer row = userMapper.updatePwdByUserId(userId, pwd);
+        System.out.println(row);
+    }
 }

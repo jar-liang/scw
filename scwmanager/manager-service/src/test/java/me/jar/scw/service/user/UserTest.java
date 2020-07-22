@@ -105,9 +105,16 @@ public class UserTest {
     }
 
     @Test
-    public void testsendMailForResetPwd() {
+    public void testSendMailForResetPwd() {
         String email = "lisi@jar.me";
         userService.sendMailForResetPwd(email);
     }
 
+    @Test
+    public void testResetPwd() {
+        String token = "7cd4e4e3-c72a-466e-8213-bbe04113b92b1595260950656";
+        String pwd = "123456";
+        boolean result = userService.resetPwd(token, pwd);
+        System.out.println(result);
+    }
 }

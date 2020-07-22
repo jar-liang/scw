@@ -85,4 +85,28 @@ public interface TUserMapper {
      * @return
      */
     Integer deleteIfRecordExist(Integer userId);
+
+    /**
+     *  通过传来的token查询是否存在该token，并且时间要距离创建时间半小时之内
+     * @param token
+     * @return
+     */
+    Integer checkTokenExist(String token);
+
+    /**
+     *  通过token查找对应的userId
+     *
+     * @param token
+     * @return
+     */
+    Integer selectUserIdByToken(String token);
+
+    /**
+     *  根据用户id更新对应的密码
+     *
+     * @param userId
+     * @param pwd
+     * @return
+     */
+    Integer updatePwdByUserId(@Param("userId") Integer userId, @Param("pwd") String pwd);
 }

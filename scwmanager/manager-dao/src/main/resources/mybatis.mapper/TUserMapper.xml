@@ -100,6 +100,19 @@
         DELETE FROM t_user_token WHERE userid=#{userId}
     </delete>
 
+    <select id="checkTokenExist" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_user_token WHERE token=#{token} AND
+        TIMESTAMPDIFF(MINUTE,DATE_SUB(NOW(),INTERVAL 30 MINUTE),(SELECT createtime FROM t_user_token WHERE token=#{token}))>0
+    </select>
+
+	<select id="selectUserIdByToken" resultType="java.lang.Integer">
+		SELECT userid FROM t_user_token WHERE token=#{token}
+	</select>
+
+	<update id="updatePwdByUserId">
+		UPDATE t_user SET userpswd=#{pwd} WHERE id=#{userId}
+	</update>
+
 </mapper>
 
 

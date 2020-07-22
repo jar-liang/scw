@@ -242,9 +242,10 @@ public class UserController {
             return result.toJSONString();
         }
         // service层处理，如果处理成功返回true，否则返回false，根据service处理结果返回前端提示
-        System.out.println("token: " + checkToken);
-        System.out.println("pwd: " + checkPwd);
-        result.put(WebConstants.STATUS, WebConstants.SUCCESS);
+        boolean resetResult = userService.resetPwd(token, pwd);
+        if (resetResult) {
+            result.put(WebConstants.STATUS, WebConstants.SUCCESS);
+        }
         return result.toJSONString();
     }
 

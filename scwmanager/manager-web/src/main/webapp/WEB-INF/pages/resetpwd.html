@@ -109,6 +109,7 @@
                     success: function (data) {
                         if (data.status == "success") {
                             alert("密码重置成功！请使用新密码登录");
+                            location.href = "/scw/login.html";
                         } else {
                             alert("密码重置失败！请检查重置密码链接是否已超时失效，否则请点击邮件里的链接重试");
                         }
