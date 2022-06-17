@@ -70,7 +70,7 @@
     <activiti.version>5.22.0</activiti.version>
     <activiti.spring.version>5.22.0</activiti.spring.version>
 
-    <fastjson.version>1.2.62</fastjson.version>
+    <fastjson.version>1.2.83</fastjson.version>
   </properties>
 
   <dependencyManagement>
